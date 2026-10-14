@@ -1,0 +1,3241 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MLV Enterprise AI Co-Pilot | PT MLV Technology x Fleek Group</title>
+  <meta name="description" content="Arsitektur AI Operasional Berbasis Microsoft 365, Zero-Risk Governance, dan Fleek Dual-Engine Architecture untuk PT MLV Technology.">
+  <style>
+/* ============================================================
+   FLEEK RETAIL OMNI-CORE // KIIWII.BEE (PAK DOMINICUS HADI)
+   Arasaka Cyber Dark with Fashion Terracotta Linen & Electric Cyan
+   Palette: #111110 Base, #e07a5f Terracotta, #06b6d4 Cyber Cyan, #f59e0b Amber
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --home-bg: #111110;
+  --home-fg-1: #ffffff;
+  --home-fg-2: #a1a1aa;
+  --home-fg-3: #71717a;
+  --home-accent: #FF0033;
+  --fashion-terracotta: #e07a5f;
+  --fashion-terracotta-glow: rgba(224, 122, 95, 0.28);
+  --fashion-terracotta-dim: rgba(224, 122, 95, 0.12);
+  --fashion-cyan: #06b6d4;
+  --fashion-cyan-glow: rgba(6, 182, 212, 0.25);
+  --fashion-cyan-dim: rgba(6, 182, 212, 0.12);
+  --fashion-gold: #f59e0b;
+  --fashion-gold-dim: rgba(245, 158, 11, 0.12);
+  --fashion-green: #10b981;
+  --fashion-green-dim: rgba(16, 185, 129, 0.12);
+  --card-bg: #181817;
+  --card-border: #282826;
+  --window-border: #333330;
+  --surface-hover: #222220;
+  
+  --font-outfit: 'Outfit', sans-serif;
+  --font-space: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  --header-height: 52px;
+}
+
+[data-theme="light"] {
+  --home-bg: #f8fafc;
+  --home-fg-1: #0f172a;
+  --home-fg-2: #475569;
+  --home-fg-3: #64748b;
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --window-border: #cbd5e1;
+  --surface-hover: #f1f5f9;
+  --fashion-terracotta-dim: rgba(224, 122, 95, 0.08);
+  --fashion-cyan-dim: rgba(6, 182, 212, 0.08);
+  --fashion-gold-dim: rgba(245, 158, 11, 0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--home-bg);
+  color: var(--home-fg-1);
+  font-family: var(--font-space);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- CRT Scanlines Grid Overlay --- */
+.crt-scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+              linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  background-size: 100% 3px, 4px 100%;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.55;
+}
+
+[data-theme="light"] .crt-scanlines {
+  opacity: 0.12;
+}
+
+/* --- Slides Container & Absolute Positioning --- */
+.slides-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.slide-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding-top: var(--header-height);
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  overflow-y: auto;
+  z-index: 10;
+  transition: opacity 0.3s ease;
+}
+
+.slide-panel.active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 20;
+}
+
+.section-content {
+  width: 100%;
+  max-width: 1140px;
+  padding: 1.5rem 2rem 2rem 2rem;
+  margin: 0 auto;
+}
+
+/* --- Header Status Bar --- */
+.floating-status-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  background: rgba(17, 17, 16, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  z-index: 900;
+}
+
+[data-theme="light"] .floating-status-bar {
+  background: rgba(248, 250, 252, 0.94);
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-badge {
+  background: var(--fashion-terracotta);
+  color: #fff;
+  font-family: var(--font-outfit);
+  font-weight: 800;
+  font-size: 0.72rem;
+  padding: 3px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.brand-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--home-fg-1);
+  letter-spacing: -0.01em;
+}
+
+.brand-divider {
+  color: var(--home-fg-3);
+  font-size: 0.8rem;
+}
+
+.brand-sub {
+  font-size: 0.78rem;
+  color: var(--home-fg-2);
+}
+
+.status-section {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.74rem;
+  font-family: var(--font-mono);
+  color: var(--fashion-cyan);
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--fashion-cyan);
+  box-shadow: 0 0 10px var(--fashion-cyan);
+  animation: pulseCyan 2s infinite;
+}
+
+@keyframes pulseCyan {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  50% { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+/* --- Floating Controls (Slide Nav) --- */
+.floating-controls {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 950;
+  background: rgba(24, 24, 23, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 6px 10px;
+  border-radius: 30px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="light"] .floating-controls {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.ctrl-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--home-fg-2);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.ctrl-btn:hover {
+  background: var(--surface-hover);
+  color: var(--fashion-terracotta);
+  border-color: var(--card-border);
+}
+
+.slide-counter {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--fashion-terracotta);
+  font-weight: 700;
+  padding: 0 6px;
+}
+
+/* Navigation Drawer */
+.nav-drawer {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 320px;
+  height: 100vh;
+  background: var(--card-bg);
+  border-left: 1px solid var(--window-border);
+  z-index: 1200;
+  transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-drawer.open {
+  right: 0;
+}
+
+.nav-drawer-header {
+  height: var(--header-height);
+  padding: 0 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.nav-drawer-title {
+  font-family: var(--font-outfit);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--fashion-terracotta);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.nav-drawer-list {
+  list-style: none;
+  padding: 1rem 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1.25rem;
+  color: var(--home-fg-2);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-family: var(--font-space);
+  transition: all 0.2s ease;
+  border-left: 2px solid transparent;
+}
+
+.nav-link:hover, .nav-link.active {
+  background: var(--surface-hover);
+  color: #fff;
+  border-left-color: var(--fashion-terracotta);
+}
+
+.nav-link-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--fashion-terracotta);
+  font-weight: 700;
+}
+
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.nav-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* --- Typography & Headings --- */
+.sect-meta {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--fashion-terracotta);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+.project-header {
+  margin-bottom: 0.85rem;
+}
+
+.project-tag {
+  display: inline-block;
+  background: var(--fashion-terracotta-dim);
+  color: var(--fashion-terracotta);
+  border: 1px solid var(--fashion-terracotta);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.project-name {
+  font-family: var(--font-outfit);
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--home-fg-1);
+  letter-spacing: -0.02em;
+}
+
+/* Cyber Box Component */
+.cyber-decor {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  position: relative;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.cyber-decor:hover {
+  border-color: rgba(224, 122, 95, 0.35);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Ticker Marquee */
+.ticker-bar {
+  background: #151514;
+  border-top: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--card-border);
+  padding: 6px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--home-fg-2);
+  display: flex;
+}
+
+.ticker-content {
+  display: inline-block;
+  animation: tickerScroll 24s linear infinite;
+}
+
+@keyframes tickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-right: 2rem;
+}
+
+.ticker-tag-fashion {
+  color: var(--fashion-terracotta);
+  font-weight: 700;
+}
+
+.ticker-tag-cyan {
+  color: var(--fashion-cyan);
+  font-weight: 700;
+}
+
+.ticker-bullet {
+  color: var(--home-fg-3);
+}
+
+/* Stamp Official Confidential */
+.stamp-confidential {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  padding: 2px 6px;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.stamp-fashion {
+  border-color: var(--fashion-terracotta);
+  color: var(--fashion-terracotta);
+  background: var(--fashion-terracotta-dim);
+}
+
+.stamp-cyan {
+  border-color: var(--fashion-cyan);
+  color: var(--fashion-cyan);
+  background: var(--fashion-cyan-dim);
+}
+
+/* Grid Layouts */
+.grid-4-col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.grid-3-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem;
+}
+
+.grid-2-col {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 1.25rem;
+}
+
+/* Chip Buttons & Actions */
+.chip-btn {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--home-fg-1);
+  padding: 5px 12px;
+  font-size: 0.74rem;
+  font-family: var(--font-space);
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.chip-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--fashion-terracotta);
+  color: var(--fashion-terracotta);
+}
+
+.chip-btn.active {
+  background: var(--fashion-terracotta-dim);
+  border-color: var(--fashion-terracotta);
+  color: var(--fashion-terracotta);
+}
+
+/* --- Tables & Scrapers --- */
+.scraper-table-container {
+  overflow-y: auto;
+  max-height: 280px;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  background: #131312;
+}
+
+.scraper-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+  text-align: left;
+}
+
+.scraper-table th {
+  background: #1c1c1b;
+  color: var(--fashion-terracotta);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--window-border);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.scraper-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid #222220;
+  color: var(--home-fg-2);
+}
+
+.scraper-table tr:hover td {
+  background: #1a1a19;
+  color: #fff;
+}
+
+/* --- Telegram Simulator --- */
+.telegram-mock {
+  background: #17212b;
+  border-radius: 10px;
+  border: 1px solid #242f3d;
+  display: flex;
+  flex-direction: column;
+  height: 380px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.telegram-header {
+  background: #242f3d;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #1c2733;
+}
+
+.telegram-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--fashion-terracotta);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.8rem;
+  font-family: var(--font-outfit);
+}
+
+.telegram-chat-body {
+  flex: 1;
+  padding: 10px 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #0e1621;
+}
+
+.tg-bubble {
+  max-width: 85%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.74rem;
+  line-height: 1.45;
+  position: relative;
+}
+
+.tg-bubble.inbound {
+  align-self: flex-start;
+  background: #182533;
+  color: #e4ecf2;
+}
+
+.tg-bubble.outbound {
+  align-self: flex-end;
+  background: #2b5278;
+  color: #ffffff;
+}
+
+.tg-time {
+  font-size: 0.6rem;
+  color: #7f99b2;
+  text-align: right;
+  margin-top: 3px;
+  font-family: var(--font-mono);
+}
+
+/* Pricing Card Component */
+.pricing-split {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 1.25rem;
+  margin-top: 0.6rem;
+}
+
+.pricing-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pricing-card.featured {
+  border-color: var(--fashion-terracotta);
+  box-shadow: 0 0 25px rgba(224, 122, 95, 0.15);
+  background: linear-gradient(180deg, rgba(224, 122, 95, 0.05) 0%, rgba(24, 24, 23, 1) 100%);
+}
+
+.pricing-tier-tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.pricing-price {
+  font-family: var(--font-outfit);
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.02em;
+}
+
+/* Toast Message */
+.deck-toast {
+  position: fixed;
+  bottom: 4.8rem;
+  right: 1.5rem;
+  background: #242422;
+  color: #fff;
+  border: 1px solid var(--fashion-terracotta);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  font-family: var(--font-mono);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+.deck-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Print View Support */
+@media print {
+  body {
+    overflow: visible !important;
+  }
+  .crt-scanlines, .floating-status-bar, .floating-controls, .nav-drawer, .nav-overlay, .deck-toast {
+    display: none !important;
+  }
+  .slides-container {
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .slide-panel {
+    position: relative !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    height: auto !important;
+    page-break-after: always;
+    padding: 2rem !important;
+  }
+}
+
+/* ============================================================
+   MLV TECHNOLOGY SPECIFIC STYLING & Fleek Engineer ARCHITECTURE MASTER
+   ============================================================ */
+
+:root {
+  --mlv-blue: #0078D4;
+  --mlv-blue-glow: rgba(0, 120, 212, 0.28);
+  --mlv-blue-dim: rgba(0, 120, 212, 0.12);
+  --mlv-purple: #7C3AED;
+  --mlv-purple-glow: rgba(124, 58, 237, 0.28);
+  --mlv-purple-dim: rgba(124, 58, 237, 0.12);
+  --mlv-green: #059669;
+  --mlv-green-glow: rgba(5, 150, 105, 0.28);
+  --mlv-green-dim: rgba(5, 150, 105, 0.12);
+  --mlv-dark-node: #1e1e1e;
+  --mlv-dark-border: #383838;
+}
+
+/* Fleek Engineer Architecture Diagram Component */
+.fleek-flow-architecture-wrapper {
+  background: #0d0d0c;
+  border: 1px solid #262624;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.fleek-flow-row-inputs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.fleek-flow-box-input {
+  background: #1c1c1c;
+  border: 1px solid #333333;
+  border-radius: 8px;
+  padding: 0.85rem 0.5rem;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+.fleek-flow-box-input:hover {
+  border-color: #555555;
+  background: #242424;
+  transform: translateY(-2px);
+}
+.fleek-flow-box-input .title {
+  font-family: var(--font-outfit);
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #f1f1f1;
+}
+.fleek-flow-box-input .desc {
+  font-family: var(--font-space);
+  font-size: 0.72rem;
+  color: #999999;
+  margin-top: 3px;
+}
+
+.fleek-flow-arrow-down {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #555555;
+  font-size: 1rem;
+  margin: 0.4rem 0;
+}
+
+.fleek-flow-box-orchestration {
+  background: linear-gradient(180deg, #064e3b 0%, #065f46 100%);
+  border: 1px solid #059669;
+  border-radius: 8px;
+  padding: 0.9rem;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.15);
+}
+.fleek-flow-box-orchestration .title {
+  font-family: var(--font-outfit);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #ecfdf5;
+}
+.fleek-flow-box-orchestration .desc {
+  font-family: var(--font-space);
+  font-size: 0.76rem;
+  color: #a7f3d0;
+  margin-top: 3px;
+}
+
+.fleek-flow-row-processing {
+  display: grid;
+  grid-template-columns: 1.2fr 40px 1.8fr;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.fleek-flow-box-claude {
+  background: linear-gradient(180deg, #3b0764 0%, #4c1d95 100%);
+  border: 1px solid #7c3aed;
+  border-radius: 8px;
+  padding: 1rem 0.75rem;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.2);
+}
+.fleek-flow-box-claude .title {
+  font-family: var(--font-outfit);
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: #f5f3ff;
+}
+.fleek-flow-box-claude .desc {
+  font-family: var(--font-space);
+  font-size: 0.74rem;
+  color: #c4b5fd;
+  margin-top: 3px;
+}
+
+.fleek-flow-box-rules {
+  background: #064e3b;
+  border: 1px solid #059669;
+  border-radius: 8px;
+  padding: 1rem 0.75rem;
+  text-align: center;
+}
+.fleek-flow-box-rules .title {
+  font-family: var(--font-outfit);
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: #ecfdf5;
+}
+.fleek-flow-box-rules .desc {
+  font-family: var(--font-space);
+  font-size: 0.74rem;
+  color: #a7f3d0;
+  margin-top: 3px;
+}
+
+.fleek-flow-box-human-gate {
+  background: linear-gradient(180deg, #064e3b 0%, #065f46 100%);
+  border: 1px solid #10b981;
+  border-radius: 8px;
+  padding: 0.9rem;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.2);
+  margin-top: 0.5rem;
+}
+.fleek-flow-box-human-gate .title {
+  font-family: var(--font-outfit);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #ecfdf5;
+}
+.fleek-flow-box-human-gate .desc {
+  font-family: var(--font-space);
+  font-size: 0.76rem;
+  color: #a7f3d0;
+  margin-top: 3px;
+}
+
+.fleek-flow-row-outputs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.fleek-flow-box-output {
+  background: #1c1c1c;
+  border: 1px solid #333333;
+  border-radius: 8px;
+  padding: 0.85rem 0.5rem;
+  text-align: center;
+}
+.fleek-flow-box-output .title {
+  font-family: var(--font-outfit);
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #f1f1f1;
+}
+.fleek-flow-box-output .desc {
+  font-family: var(--font-space);
+  font-size: 0.72rem;
+  color: #999999;
+  margin-top: 3px;
+}
+
+.fleek-flow-footer-audit {
+  margin-top: 1rem;
+  background: #141414;
+  border: 1px dashed #333333;
+  border-radius: 6px;
+  padding: 0.6rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #888888;
+}
+
+.fleek-flow-legend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 0.85rem;
+  font-family: var(--font-space);
+  font-size: 0.74rem;
+}
+.fleek-flow-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.fleek-flow-dot-purple {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: #7c3aed;
+}
+.fleek-flow-dot-green {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: #059669;
+}
+
+/* ============================================================
+   TEAMS ADAPTIVE CARD MOCKUP (MICROSOFT TEAMS DARK THEME)
+   ============================================================ */
+.teams-mock {
+  background: #1f1f23;
+  border: 1px solid #333338;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+.teams-header-bar {
+  background: #2b2b30;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #383840;
+}
+.teams-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.teams-bot-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  background: #6264a7;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+.teams-bot-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #f3f3f3;
+}
+.teams-bot-time {
+  font-size: 0.68rem;
+  color: #8c8c94;
+}
+.teams-chat-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  background: #18181c;
+}
+.teams-adaptive-card {
+  background: #242429;
+  border: 1px solid #383842;
+  border-left: 4px solid #6264a7;
+  border-radius: 6px;
+  padding: 14px;
+  color: #ebebeb;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+.teams-card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.teams-badge {
+  font-size: 0.68rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.teams-badge.green { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #059669; }
+.teams-badge.yellow { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #d97706; }
+.teams-badge.red { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #dc2626; }
+
+.teams-grid-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 10px 0;
+  background: #1c1c20;
+  padding: 8px;
+  border-radius: 6px;
+}
+.teams-metric-box {
+  text-align: center;
+}
+.teams-metric-box .label {
+  font-size: 0.66rem;
+  color: #9e9ea6;
+}
+.teams-metric-box .val {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.teams-todo-list {
+  list-style: none;
+  margin: 8px 0;
+}
+.teams-todo-item {
+  padding: 5px 0;
+  border-bottom: 1px solid #2d2d35;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.76rem;
+}
+.teams-todo-item:last-child { border-bottom: none; }
+
+.teams-actions-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.teams-btn {
+  background: #6264a7;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.teams-btn:hover { background: #50528f; }
+.teams-btn.secondary {
+  background: #33333a;
+  color: #cfcfe0;
+}
+.teams-btn.secondary:hover { background: #40404a; }
+
+/* ============================================================
+   PM DELIVERABLES GENERATOR SIMULATOR
+   ============================================================ */
+.doc-sim-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 1.25rem;
+  background: #141413;
+  border: 1px solid #282826;
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+.doc-form-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.doc-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.doc-form-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #a1a1aa;
+}
+.doc-form-select, .doc-form-input {
+  background: #1c1c1b;
+  border: 1px solid #333330;
+  border-radius: 4px;
+  padding: 7px 10px;
+  color: #f4f4f5;
+  font-size: 0.78rem;
+  font-family: var(--font-space);
+}
+.doc-preview-pane {
+  background: #ffffff;
+  color: #111827;
+  border-radius: 6px;
+  padding: 1.2rem;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  height: 380px;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  position: relative;
+}
+.doc-preview-header {
+  border-bottom: 2px solid #111827;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.doc-preview-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.doc-preview-meta {
+  font-size: 0.68rem;
+  color: #4b5563;
+}
+.doc-preview-body {
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: #1f2937;
+}
+.doc-stamp-draft {
+  position: absolute;
+  top: 40%;
+  right: 15%;
+  border: 3px dashed rgba(220, 38, 38, 0.35);
+  color: rgba(220, 38, 38, 0.35);
+  font-weight: 900;
+  font-size: 1.8rem;
+  padding: 4px 16px;
+  transform: rotate(-18deg);
+  pointer-events: none;
+  font-family: var(--font-outfit);
+}
+
+/* ============================================================
+   BCA TO ACCURATE RECONCILIATION SIMULATOR
+   ============================================================ */
+.recon-wrapper {
+  background: #141413;
+  border: 1px solid #282826;
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+.recon-item-card {
+  background: #1c1c1b;
+  border: 1px solid #333330;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.recon-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.recon-item-bank {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #38bdf8;
+  font-weight: 700;
+}
+.recon-item-nominal {
+  font-family: var(--font-outfit);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #34d399;
+}
+.recon-match-box {
+  background: #242422;
+  border: 1px dashed #444440;
+  border-radius: 6px;
+  padding: 8px 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  font-size: 0.72rem;
+  align-items: center;
+}
+
+/* ============================================================
+   TRADE-OFF COMPARISON TABLE (CLAUDE PRO VS PURE CLOUD M365)
+   ============================================================ */
+.tradeoff-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.74rem;
+  margin: 0.8rem 0;
+}
+.tradeoff-table th {
+  background: #1c1c1b;
+  padding: 10px;
+  font-family: var(--font-outfit);
+  font-size: 0.8rem;
+  text-align: left;
+  border-bottom: 2px solid var(--window-border);
+}
+.tradeoff-table th.cloud-col {
+  color: #34d399;
+  background: #064e3b22;
+}
+.tradeoff-table th.pro-col {
+  color: #f87171;
+  background: #450a0a22;
+}
+.tradeoff-table td {
+  padding: 9px 10px;
+  border-bottom: 1px solid #222220;
+  vertical-align: top;
+  color: var(--home-fg-2);
+}
+.tradeoff-table tr:hover td {
+  background: #171716;
+}
+.pill-good {
+  display: inline-block;
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid #059669;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+.pill-bad {
+  display: inline-block;
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid #dc2626;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+/* ============================================================
+   IT TEAM BRIEFING SECURITY GATE & PASSCODE TERMINAL
+   ============================================================ */
+.lock-terminal {
+  background: #0f0f0e;
+  border: 1px solid #2c2c2a;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 480px;
+  margin: 2rem auto;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+.terminal-title {
+  font-family: var(--font-outfit);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #ffffff;
+  margin-bottom: 0.4rem;
+}
+.terminal-subtitle {
+  font-size: 0.78rem;
+  color: var(--home-fg-2);
+  margin-bottom: 1.5rem;
+}
+.terminal-input-wrap {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+.terminal-input {
+  background: #1a1a18;
+  border: 1px solid #3d3d3a;
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-align: center;
+  letter-spacing: 0.15em;
+  width: 180px;
+}
+.terminal-btn {
+  background: var(--home-accent);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-family: var(--font-outfit);
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.terminal-btn:hover { opacity: 0.9; }
+.terminal-error-msg {
+  color: #ef4444;
+  font-size: 0.74rem;
+  font-family: var(--font-mono);
+  display: none;
+  margin-top: 6px;
+}
+.it-brief-content {
+  display: none;
+  width: 100%;
+}
+.it-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+.it-card {
+  background: #141413;
+  border: 1px solid #282826;
+  border-radius: 8px;
+  padding: 1.2rem;
+}
+.it-card h4 {
+  font-family: var(--font-outfit);
+  font-size: 0.92rem;
+  color: #38bdf8;
+  margin-bottom: 0.5rem;
+}
+.it-card pre {
+  background: #0a0a09;
+  border: 1px solid #222220;
+  border-radius: 4px;
+  padding: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #a7f3d0;
+  overflow-x: auto;
+  line-height: 1.4;
+}
+
+
+</style>
+</head>
+<body>
+
+  <!-- CRT Scanline Grid Overlay -->
+  <div class="crt-scanlines"></div>
+
+  <!-- Slide Progress Bar -->
+  <div class="scroll-progress-container">
+    <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+  </div>
+
+  <!-- Header Status Bar -->
+  <header class="floating-status-bar">
+    <div class="brand-section">
+      <span class="brand-badge">FLEEK x MLV</span>
+      <span class="brand-title">MLV Intelligent Co-Pilot</span>
+      <span class="brand-divider">/</span>
+      <span class="brand-sub">Enterprise AI Operating System</span>
+    </div>
+    <div class="status-section">
+      <div class="live-indicator">
+        <span class="live-dot"></span>
+        <span>M365 TENANT VERIFIED</span>
+      </div>
+      <button id="themeToggleBtn" class="ctrl-btn" title="Ganti Tema">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+        </svg>
+      </button>
+      <button id="printBtn" class="ctrl-btn" title="Cetak PDF">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+      </button>
+      <button id="navToggleBtn" class="ctrl-btn" title="Navigasi Slide">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar Drawer Navigation -->
+  <div id="navOverlay" class="nav-overlay"></div>
+  <nav id="navDrawer" class="nav-drawer">
+    <div class="nav-drawer-header">
+      <div class="nav-drawer-title">DAFTAR SLIDE PRESENTASI</div>
+      <button id="closeNavBtn" class="ctrl-btn" style="color:var(--home-fg-2);">✕</button>
+    </div>
+    <ul class="nav-drawer-list">
+      <li><a href="#opening" class="nav-link active"><span class="nav-link-num">01</span> Cover & Visi Eksekutif</a></li>
+      <li><a href="#painpoint" class="nav-link"><span class="nav-link-num">02</span> Realitas Operasional MLV</a></li>
+      <li><a href="#fleek-flow" class="nav-link"><span class="nav-link-num">03</span> Arsitektur Master: Fleek Dual-Engine Architecture</a></li>
+      <li><a href="#module-pm" class="nav-link"><span class="nav-link-num">04</span> Modul 01: Pabrik Dokumen PM</a></li>
+      <li><a href="#module-morning" class="nav-link"><span class="nav-link-num">05</span> Modul 02: Teams Morning Brief 07.45</a></li>
+      <li><a href="#module-bca-accurate" class="nav-link"><span class="nav-link-num">06</span> Modul 03: Kas BCA ➔ Accurate</a></li>
+      <li><a href="#claude-tradeoff" class="nav-link"><span class="nav-link-num">07</span> Analisis Engine: Claude vs Cloud M365</a></li>
+      <li><a href="#security-governance" class="nav-link"><span class="nav-link-num">08</span> Keamanan & Kepatuhan Korporat</a></li>
+      <li><a href="#business-cycle" class="nav-link"><span class="nav-link-num">09</span> End-to-End Business Cycle</a></li>
+      <li><a href="#commercial-scheme" class="nav-link"><span class="nav-link-num">10</span> Skema Komersial 2-Fase</a></li>
+      <li><a href="#roadmap" class="nav-link"><span class="nav-link-num">11</span> Roadmap Sprint 4 Minggu</a></li>
+      <li><a href="#itbrief" class="nav-link"><span class="nav-link-num">12</span> IT Brief Gate & Closing</a></li>
+    </ul>
+    <div style="padding:1rem 1.25rem; border-top:1px solid var(--card-border); font-size:0.68rem; color:var(--home-fg-3); font-family:var(--font-mono);">
+      CONFIDENTIAL // PT FLEEK GROUP INDONESIA<br>
+      FLEEK PROJECT FOR PT MLV TECHNOLOGY
+    </div>
+  </nav>
+
+  <!-- Floating Navigation Controls (Bottom Right) -->
+  <div class="floating-controls">
+    <button id="prevSlideBtn" class="ctrl-btn" title="Slide Sebelumnya">◀</button>
+    <span class="slide-counter" id="slideCounter">01 / 12</span>
+    <button id="nextSlideBtn" class="ctrl-btn" title="Slide Berikutnya">▶</button>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="deckToast" class="deck-toast">
+    <span id="deckToastText">Notifikasi Deck</span>
+  </div>
+
+  <!-- Slides Container -->
+  <div class="slides-container">
+
+    <!-- ============================================================
+         SLIDE 1: OPENING & STRATEGIC VISION
+         ============================================================ -->
+    <section id="opening" class="slide-panel active">
+      <div class="section-content">
+        <span class="sect-meta">// STRATEGIC_PROPOSAL: EXECUTIVE_BRIEF // FLEEK.AI</span>
+        <div class="project-header" style="margin-top:1rem;">
+          <span class="project-tag" style="background:rgba(0,120,212,0.15); border-color:#0078d4; color:#38bdf8;">
+            MICROSOFT 365 NATIVE ARCHITECTURE
+          </span>
+          <h1 class="project-name animate-text" style="font-size:2.6rem; margin-top:0.5rem;">
+            MLV Enterprise AI Co-Pilot
+          </h1>
+          <p style="font-size:1.05rem; color:var(--home-fg-2); max-width:820px; margin-top:0.75rem; line-height:1.6;">
+            Transformasi Operasional Audiovisual Berbasis <strong>Microsoft 365 Tenant Milik Klien</strong>, Zero-Risk Data Governance, dan Dual-Engine Orchestration (Fleek Dual-Engine Architecture) untuk Melipatgandakan Produktivitas 9 Karyawan Tanpa Server Liar Pihak Ketiga.
+          </p>
+        </div>
+
+        <div class="grid-3-col" style="margin-top:2rem;">
+          <div class="cyber-decor" style="padding:1.25rem; border-top:3px solid #0078d4;">
+            <div style="font-family:var(--font-mono); font-size:0.72rem; color:#38bdf8;">01. LINGKUNGAN KERJA</div>
+            <h3 style="font-family:var(--font-outfit); font-size:1.1rem; margin:0.4rem 0;">100% Native Microsoft</h3>
+            <p style="font-size:0.78rem; color:var(--home-fg-2); line-height:1.5;">
+              Berjalan langsung di SharePoint, Outlook, dan Teams milik PT MLV Technology sejak 2006. Tidak ada n8n, tidak ada server liar, dan tidak menyentuh WhatsApp pribadi Pak Melvin.
+            </p>
+          </div>
+
+          <div class="cyber-decor" style="padding:1.25rem; border-top:3px solid #7c3aed;">
+            <div style="font-family:var(--font-mono); font-size:0.72rem; color:#c4b5fd;">02. FILOSOFI ARSITEKTUR</div>
+            <h3 style="font-family:var(--font-outfit); font-size:1.1rem; margin:0.4rem 0;">The Fleek Dual-Engine Separation</h3>
+            <p style="font-size:0.78rem; color:var(--home-fg-2); line-height:1.5;">
+              Pemisahan tegas: AI Claude (ungu) hanya membaca teks minimal & mengusulkan. Aturan pasti & hitungan (hijau) dieksekusi secara deterministik dengan persetujuan manusia.
+            </p>
+          </div>
+
+          <div class="cyber-decor" style="padding:1.25rem; border-top:3px solid #10b981;">
+            <div style="font-family:var(--font-mono); font-size:0.72rem; color:#34d399;">03. FOKUS 3 PILOT PILAR</div>
+            <h3 style="font-family:var(--font-outfit); font-size:1.1rem; margin:0.4rem 0;">Zero-Risk ROI Cepat</h3>
+            <p style="font-size:0.78rem; color:var(--home-fg-2); line-height:1.5;">
+              Fokus 3 modul pilot bernilai tinggi: (1) Pabrik Deliverables Dokumen PM, (2) Teams Morning Briefing 07.45 WIB, dan (3) Rekonsiliasi Kas BCA ke Accurate Online.
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top:2rem; display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--card-border); padding-top:1.2rem;">
+          <div style="font-size:0.75rem; color:var(--home-fg-3); font-family:var(--font-mono);">
+            KLIEN: PT MLV TECHNOLOGY (PAK MELVIN HALPITO) // LEAD ARCHITECT: DIMITRI AHMAD (FLEEK GROUP)
+          </div>
+          <button class="chip-btn active" onclick="window.goToSlide(2)">
+            Jelajahi Arsitektur Fleek Dual-Engine ➔
+          </button>
+        </div>
+      </div>
+
+      <!-- Infinite Marquee Client Banner -->
+      <div class="ticker-bar" style="position:absolute; bottom:0; width:100%;">
+        <div class="ticker-content">
+          <span class="ticker-item"><span class="ticker-tag-fashion">KLIEN PRIORITAS MLV:</span> Bank Indonesia (IKN)</span>
+          <span class="ticker-item"><span class="ticker-bullet">•</span> Otoritas Jasa Keuangan (OJK)</span>
+          <span class="ticker-item"><span class="ticker-bullet">•</span> Mabes TNI Angkatan Laut</span>
+          <span class="ticker-item"><span class="ticker-bullet">•</span> Huawei Indonesia</span>
+          <span class="ticker-item"><span class="ticker-tag-cyan">INTEGRASI HARDWARE & AV:</span> Crestron 4-Series</span>
+          <span class="ticker-item"><span class="ticker-bullet">•</span> Shure Microflex Wireless</span>
+          <span class="ticker-item"><span class="ticker-bullet">•</span> Barco ClickShare CX</span>
+          <span class="ticker-item"><span class="ticker-bullet">•</span> Unilumin LED Video Wall</span>
+          <span class="ticker-item"><span class="ticker-bullet">•</span> Accurate Online API</span>
+          <span class="ticker-item"><span class="ticker-bullet">•</span> KlikBCA Corporate</span>
+          <!-- Duplicate for loop -->
+          <span class="ticker-item"><span class="ticker-tag-fashion">KLIEN PRIORITAS MLV:</span> Bank Indonesia (IKN)</span>
+          <span class="ticker-item"><span class="ticker-bullet">•</span> Otoritas Jasa Keuangan (OJK)</span>
+          <span class="ticker-item"><span class="ticker-bullet">•</span> Mabes TNI Angkatan Laut</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 2: PAIN POINT & OPERATIONAL REALITY
+         ============================================================ -->
+    <section id="painpoint" class="slide-panel">
+      <div class="section-content">
+        <span class="sect-meta">// SYS_AUDIT: SECTION_02 // DIAGNOSA OPERASIONAL</span>
+        <div class="project-header">
+          <span class="project-tag">9 EMPLOYEES REALITY</span>
+          <h2 class="project-name animate-text">
+            Beban Administratif vs Proyek Nilai Tinggi
+          </h2>
+          <p style="font-size:0.95rem; color:var(--home-fg-2); margin-top:0.35rem;">
+            PT MLV Technology memegang proyek-proyek strategis bernilai ratusan juta rupiah (Bank Indonesia, OJK, TNI AL), namun seluruh operasional bertumpu pada 9 staf yang terjebak pekerjaan repetitif.
+          </p>
+        </div>
+
+        <div class="grid-3-col" style="margin-top:1.5rem;">
+          <div class="cyber-decor" style="padding:1.4rem; border-left:4px solid #ef4444;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="stamp-confidential">BOTTLENECK #1</span>
+              <span style="font-size:1.3rem;">📑</span>
+            </div>
+            <h3 style="font-family:var(--font-outfit); font-size:1.15rem; margin:0.8rem 0 0.4rem 0; color:#f87171;">
+              Dokumen PM Terlambat & Berulang
+            </h3>
+            <p style="font-size:0.78rem; color:var(--home-fg-2); line-height:1.55;">
+              Setiap proyek baru, PM harus mengetik ulang SPK teknisi, checklist SOP, surat BAST fisik, dan garansi SLA dari kontrak/PO. Jika BAST terlambat 2 minggu, pencairan termin penagihan ke klien tertahan.
+            </p>
+            <div style="margin-top:1rem; background:#1c1414; padding:8px; border-radius:4px; font-size:0.72rem; color:#fca5a5;">
+              ⚡ <strong>Dampak:</strong> Cash flow tertunda & PM kehabisan waktu untuk supervisi teknis di lapangan.
+            </div>
+          </div>
+
+          <div class="cyber-decor" style="padding:1.4rem; border-left:4px solid #f59e0b;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="stamp-confidential" style="border-color:#f59e0b; color:#f59e0b; background:rgba(245,158,11,0.1);">BOTTLENECK #2</span>
+              <span style="font-size:1.3rem;">🌅</span>
+            </div>
+            <h3 style="font-family:var(--font-outfit); font-size:1.15rem; margin:0.8rem 0 0.4rem 0; color:#fbbf24;">
+              Morning Brief Tersebar & Manual
+            </h3>
+            <p style="font-size:0.78rem; color:var(--home-fg-2); line-height:1.55;">
+              Pak Melvin harus menanyakan satu per satu: <em>"Hari ini tim berangkat ke mana?", "Kabel Crestron sudah sampai belum?", "Ada kendala apa?"</em>. Obrolan berserakan di chat WhatsApp dan tidak ada single-pane monitoring.
+            </p>
+            <div style="margin-top:1rem; background:#1c1a14; padding:8px; border-radius:4px; font-size:0.72rem; color:#fde68a;">
+              ⚡ <strong>Dampak:</strong> Owner terbebani micromanagement harian alih-alih fokus pada ekspansi bisnis.
+            </div>
+          </div>
+
+          <div class="cyber-decor" style="padding:1.4rem; border-left:4px solid #06b6d4;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="stamp-confidential stamp-cyan">BOTTLENECK #3</span>
+              <span style="font-size:1.3rem;">🏦</span>
+            </div>
+            <h3 style="font-family:var(--font-outfit); font-size:1.15rem; margin:0.8rem 0 0.4rem 0; color:#38bdf8;">
+              Rekonsiliasi Kas BCA & PPh 23
+            </h3>
+            <p style="font-size:0.78rem; color:var(--home-fg-2); line-height:1.55;">
+              Mutasi bank BCA dicek manual dari email / m-Banking, dicocokkan ke tagihan di Accurate Online. Sering terjadi selisih pencatatan karena potongan PPh 23 (2%) atau biaya admin transfer yang tidak segera teridentifikasi.
+            </p>
+            <div style="margin-top:1rem; background:#101a1c; padding:8px; border-radius:4px; font-size:0.72rem; color:#bae6fd;">
+              ⚡ <strong>Dampak:</strong> Laporan keuangan tertunda dan risiko salah posting jurnal akuntansi.
+            </div>
+          </div>
+        </div>
+
+        <div class="cyber-decor" style="margin-top:1.5rem; padding:1rem 1.25rem; display:flex; align-items:center; justify-content:space-between; background:#171716;">
+          <div style="font-size:0.82rem; color:var(--home-fg-1);">
+            <strong style="color:var(--home-accent);">Prinsip Batasan Pak Melvin:</strong> <em>"Saya tidak mau server asing, tidak mau n8n liar, dan privasi WhatsApp nomor pribadi saya tidak boleh diganggu!"</em>
+          </div>
+          <span class="pill-good" style="font-size:0.72rem;">100% TERPENUHI DALAM BLUEPRINT INI</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 3: FLEEK DUAL-ENGINE FLOW ARCHITECTURE (CORE REQUEST)
+         ============================================================ -->
+    <section id="fleek-flow" class="slide-panel">
+      <div class="section-content">
+        <span class="sect-meta">// ARCHITECTURE_CORE: SECTION_03 // FLEEK DUAL-ENGINE FLOW</span>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+          <div>
+            <h2 class="project-name animate-text" style="font-size:1.9rem;">
+              Arsitektur Master: Fleek Dual-Engine Architecture
+            </h2>
+            <p style="font-size:0.85rem; color:var(--home-fg-2); margin-top:2px;">
+              Blueprint Alur Orkestrasi Data & Pemisahan Tegas: AI Mengusulkan (Ungu) vs Aturan Pasti & Manusia Memutuskan (Hijau).
+            </p>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="chip-btn active fleek-flow-filter-btn" onclick="window.filterFleekFlow('all', this)">Semua Alur</button>
+            <button class="chip-btn fleek-flow-filter-btn" onclick="window.filterFleekFlow('pm', this)">Jalur Dokumen PM</button>
+            <button class="chip-btn fleek-flow-filter-btn" onclick="window.filterFleekFlow('morning', this)">Jalur Morning Brief</button>
+            <button class="chip-btn fleek-flow-filter-btn" onclick="window.filterFleekFlow('bca', this)">Jalur Kas BCA</button>
+          </div>
+        </div>
+
+        <!-- Master Visual Flowchart Component -->
+        <div class="fleek-flow-architecture-wrapper">
+          <!-- 1. Row Inputs (4 Sources) -->
+          <div class="fleek-flow-row-inputs">
+            <div class="fleek-flow-box-input">
+              <div style="font-size:1.1rem; margin-bottom:2px;">📁</div>
+              <div class="title">SharePoint</div>
+              <div class="desc">Dokumen proyek (Kontrak, PO, RAB, Spesifikasi)</div>
+            </div>
+            <div class="fleek-flow-box-input">
+              <div style="font-size:1.1rem; margin-bottom:2px;">✉️</div>
+              <div class="title">Outlook</div>
+              <div class="desc">Kotak bersama (Shared Mailbox tim & tender)</div>
+            </div>
+            <div class="fleek-flow-box-input">
+              <div style="font-size:1.1rem; margin-bottom:2px;">📊</div>
+              <div class="title">Accurate</div>
+              <div class="desc">Hanya baca (Read-only via REST API)</div>
+            </div>
+            <div class="fleek-flow-box-input">
+              <div style="font-size:1.1rem; margin-bottom:2px;">🏦</div>
+              <div class="title">Mutasi BCA</div>
+              <div class="desc">Email notif resmi & file CSV/PDF bank</div>
+            </div>
+          </div>
+
+          <!-- Arrow Down -->
+          <div class="fleek-flow-arrow-down">▼ ORKESTRASI SERVERLESS TERPUSAT ▼</div>
+
+          <!-- 2. Power Automate Box -->
+          <div class="fleek-flow-box-orchestration">
+            <div class="title">⚙️ Power Automate (M365 Native Orchestrator)</div>
+            <div class="desc">Akun layanan resmi (Service Principal), hak akses minimal (Least Privilege), berjalan di dalam Tenant Microsoft MLV</div>
+          </div>
+
+          <!-- Arrow Down Split -->
+          <div class="fleek-flow-arrow-down">▼ PEMISAHAN LOGIKA CERDAS VS VALIDASI DETERMINISTIK ▼</div>
+
+          <!-- 3. Split Processing: Claude (Ungu) vs Rules (Hijau) -->
+          <div class="fleek-flow-row-processing">
+            <!-- Box Ungu (AI) -->
+            <div class="fleek-flow-box-claude">
+              <div style="display:inline-block; background:rgba(255,255,255,0.15); font-size:0.65rem; padding:2px 8px; border-radius:10px; margin-bottom:4px; font-weight:700;">
+                🟣 ENGINE AI KORPORAT
+              </div>
+              <div class="title">Claude 3.5 Sonnet / Azure AI</div>
+              <div class="desc" style="font-size:0.75rem; line-height:1.4; margin-top:6px;">
+                • Hanya data teks minimal yang dikirim<br>
+                • <strong>Tugas: Mengusulkan</strong> draft dokumen, merangkum to-do, & mendeteksi anomali<br>
+                • Zero-Data Retention (Data MLV tidak dipakai melatih model)
+              </div>
+            </div>
+
+            <div style="text-align:center; font-weight:800; color:#888; font-size:1.2rem;">➔</div>
+
+            <!-- Box Hijau (Validasi) -->
+            <div class="fleek-flow-box-rules">
+              <div style="display:inline-block; background:rgba(255,255,255,0.15); font-size:0.65rem; padding:2px 8px; border-radius:10px; margin-bottom:4px; font-weight:700;">
+                🟢 ATURAN PASTI & DETERMINISTIK
+              </div>
+              <div class="title">Validasi & Aturan Pasti (Deterministic Engine)</div>
+              <div class="desc" style="font-size:0.75rem; line-height:1.4; margin-top:6px;">
+                • <strong>Parse JSON:</strong> Ekstraksi terstruktur tanpa halusinasi<br>
+                • <strong>Cocokkan:</strong> Nomor SPK, PO, dan invoice klien<br>
+                • <strong>Hitung:</strong> Nominal transfer, potongan PPh 23 (2%), dan saldo tagihan
+              </div>
+            </div>
+          </div>
+
+          <!-- Arrow Down -->
+          <div class="fleek-flow-arrow-down">▼ GERBANG PENGENDALIAN MUTLAK ▼</div>
+
+          <!-- 4. Persetujuan Manusia (Human Gate) -->
+          <div class="fleek-flow-box-human-gate">
+            <div class="title">🛡️ Persetujuan Manusia (Human-in-the-Loop Gatekeeper)</div>
+            <div class="desc">
+              <strong>Wajib sebelum tindakan keluar:</strong> Tidak ada email terkirim ke klien, tidak ada task dibuat ke teknisi, dan tidak ada jurnal diposting ke Accurate tanpa klik tombol persetujuan dari Staf/PM/Pak Melvin di Microsoft Teams.
+            </div>
+          </div>
+
+          <!-- Arrow Down -->
+          <div class="fleek-flow-arrow-down">▼ EKSEKUSI 3 OUTPUT PILOT TERVERIFIKASI ▼</div>
+
+          <!-- 5. Row Outputs (3 Outputs) -->
+          <div class="fleek-flow-row-outputs">
+            <div class="fleek-flow-box-output">
+              <div style="color:#38bdf8; font-size:1.1rem; margin-bottom:2px;">📑</div>
+              <div class="title">Output 01: Pabrik Deliverables PM</div>
+              <div class="desc">Cek kelengkapan & generate otomatis SPK teknisi, form BAST, kartu garansi SLA</div>
+            </div>
+            <div class="fleek-flow-box-output">
+              <div style="color:#fbbf24; font-size:1.1rem; margin-bottom:2px;">🌅</div>
+              <div class="title">Output 02: Teams Morning Briefing</div>
+              <div class="desc">Adaptive Card 07.45 WIB per role (Owner, PM/Teknisi, Finance) dengan status lampu sinyal</div>
+            </div>
+            <div class="fleek-flow-box-output">
+              <div style="color:#34d399; font-size:1.1rem; margin-bottom:2px;">💰</div>
+              <div class="title">Output 03: Usulan Rekonsiliasi Kas</div>
+              <div class="desc">Draft jurnal kas masuk/keluar di Accurate Online lengkap dengan potongan PPh 23 (2%)</div>
+            </div>
+          </div>
+
+          <!-- 6. Footer Audit Trail -->
+          <div class="fleek-flow-footer-audit">
+            🔒 AUDIT TRAIL LOG RESMI // M365 PURVIEW: Dicatat di setiap langkah (Siapa yang setuju • Kapan dieksekusi • File mana di SharePoint • Token API yang terpakai)
+          </div>
+
+          <!-- 7. Legenda Diagram -->
+          <div class="fleek-flow-legend">
+            <div class="fleek-flow-legend-item">
+              <span class="fleek-flow-dot-purple"></span>
+              <span><strong>Bagian AI (Ungu):</strong> Hanya mengusulkan draf & rekomendasi (tidak pernah eksekusi langsung)</span>
+            </div>
+            <div class="fleek-flow-legend-item">
+              <span class="fleek-flow-dot-green"></span>
+              <span><strong>Bagian Aturan & Manusia (Hijau):</strong> Menjalankan aturan pasti & persetujuan mutlak</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Filter Explanation Box -->
+        <div id="fleekFilterExplanation" style="background:#171716; border:1px solid #2a2a28; border-radius:6px; padding:8px 12px; font-size:0.75rem; color:var(--home-fg-2);">
+          <strong>Tampilan Utuh (End-to-End):</strong> Menampilkan integrasi penuh dari 4 input data perusahaan melalui Power Automate, pemisahan engine Claude (ungu) vs validasi deterministik (hijau), gatekeeper manusia, hingga 3 output pilot dan log audit.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 4: MODULE 01 - PM DELIVERABLES FACTORY
+         ============================================================ -->
+    <section id="module-pm" class="slide-panel">
+      <div class="section-content">
+        <span class="sect-meta">// SYS_PROPOSAL: MODULE_01 // THE DELIVERABLES FACTORY</span>
+        <div class="project-header">
+          <span class="project-tag" style="background:rgba(0,120,212,0.15); border-color:#0078d4; color:#38bdf8;">MODUL 01: OTOMASI DOKUMEN PM</span>
+          <h2 class="project-name animate-text">
+            Pabrik Deliverables Dokumen Proyek
+          </h2>
+          <p style="font-size:0.88rem; color:var(--home-fg-2); margin-top:2px;">
+            AI membaca dokumen kontrak/PO di SharePoint, lalu menyusun SPK teknisi, form serah terima BAST, dan garansi SLA dalam template Word resmi perusahaan secara instan.
+          </p>
+        </div>
+
+        <!-- Interactive Document Generator Simulator -->
+        <div class="doc-sim-wrapper">
+          <!-- Left: Control Form -->
+          <div class="doc-form-pane">
+            <div style="font-family:var(--font-outfit); font-weight:700; font-size:0.95rem; color:#fff; border-bottom:1px solid #2a2a28; padding-bottom:6px;">
+              ⚡ Simulator Generator Dokumen PM
+            </div>
+
+            <div class="doc-form-group">
+              <label class="doc-form-label">PILIH PROYEK AKTIF DI SHAREPOINT:</label>
+              <select id="pmSelectProject" class="doc-form-select">
+                <option value="bi-ikn">Bank Indonesia (IKN) - Boardroom Dewan Gubernur</option>
+                <option value="ojk-thamrin">OJK Pusat - Upgrade Media Center AV</option>
+                <option value="tni-al">Mabes TNI AL - War Room Tactical Secure Audio</option>
+              </select>
+            </div>
+
+            <div class="doc-form-group">
+              <label class="doc-form-label">PILIH DELIVERABLE YANG INGIN DI-GENERATE:</label>
+              <select id="pmSelectDocType" class="doc-form-select">
+                <option value="spk">1. Surat Perintah Kerja (SPK) Teknisi Lapangan</option>
+                <option value="bast">2. Berita Acara Serah Terima (BAST) Pekerjaan</option>
+                <option value="garansi">3. Sertifikat Garansi Resmi & SLA 24-Bulan</option>
+              </select>
+            </div>
+
+            <div style="background:#1a1a19; padding:8px; border-radius:6px; font-size:0.72rem; color:var(--home-fg-2);">
+              <div style="color:#38bdf8; font-weight:700; margin-bottom:4px;">PROSES OTOMASI AI:</div>
+              • Ekstrak BOQ Perangkat (Crestron, Shure, Barco, LED)<br>
+              • Injeksi SOP Pengkabelan & Standar Kalibrasi Audio<br>
+              • Generate Draft Word & Simpan Otomatis ke SharePoint Proyek
+            </div>
+
+            <button class="chip-btn active" style="justify-content:center; padding:9px; font-size:0.82rem; margin-top:4px;" onclick="window.generatePmDoc()">
+              ⚡ Generate Dokumen via M365 AI
+            </button>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.68rem; font-family:var(--font-mono); margin-top:4px;">
+              <span style="color:#888;">STATUS ENGINE:</span>
+              <span id="pmGenStatusBadge" style="color:#34d399; font-weight:700;">STANDBY // READY</span>
+            </div>
+          </div>
+
+          <!-- Right: Live Preview Pane -->
+          <div class="doc-preview-pane" id="pmDocPreviewContent">
+            <div class="doc-preview-header">
+              <div>
+                <div class="doc-preview-title">SURAT PERINTAH KERJA (SPK) TEKNISI</div>
+                <div class="doc-preview-meta">No. Dokumen: SPK-MLV/ENG/2026/041</div>
+              </div>
+              <div style="text-align:right;">
+                <span style="font-size:0.7rem; font-weight:700; color:#0078d4;">PT MLV TECHNOLOGY</span><br>
+                <span style="font-size:0.65rem; color:#6b7280;">M365 SharePoint Generator</span>
+              </div>
+            </div>
+            <div class="doc-preview-body">
+              <p><strong>Kepada Yth. Tim Engineering & Teknisi Lapangan:</strong></p>
+              <table style="width:100%; margin:8px 0; font-size:0.72rem; border-collapse:collapse;">
+                <tr><td style="width:120px; color:#4b5563;">Proyek Klien:</td><td><strong>Bank Indonesia (Perwakilan IKN)</strong></td></tr>
+                <tr><td style="color:#4b5563;">No. Acuan PO/RAB:</td><td>PO-BI/IKN/2026/094</td></tr>
+                <tr><td style="color:#4b5563;">Project Manager (PM):</td><td>Budi Santoso, S.T.</td></tr>
+                <tr><td style="color:#4b5563;">Lingkup Kerja:</td><td>Pengadaan & Instalasi Ruang Rapat Dewan Gubernur (Command Boardroom)</td></tr>
+                <tr><td style="color:#4b5563;">Tanggal Mulai:</td><td>13 Oktober 2026 s/d Selesai Testing</td></tr>
+              </table>
+              <p style="margin-top:6px;"><strong>Daftar Peralatan & BOM Yang Wajib Dibawa:</strong></p>
+              <ul style="padding-left:16px; margin:4px 0;">
+                <li>1x Crestron CP4N 4-Series Control System</li>
+                <li>2x Shure MXA920 Ceiling Array Microphone (Dante)</li>
+                <li>1x Barco ClickShare CX-50 Gen 2 Wireless Presentation</li>
+                <li>1x Unilumin LED Video Wall P1.5 Native 4K UHD</li>
+              </ul>
+              <p style="margin-top:8px; font-size:0.68rem; color:#4b5563; background:#f3f4f6; padding:6px; border-radius:4px;">
+                ⚠️ <em>Catatan Khusus SOP: Pengkabelan audio Dante wajib menggunakan Cat6A STP shielded. Lakukan firmware update pada kontrol Crestron sebelum kabel patch dipasang.</em>
+              </p>
+            </div>
+            <div class="doc-stamp-draft">DRAFT PM VERIFIED</div>
+          </div>
+        </div>
+
+        <div style="margin-top:0.75rem; display:flex; justify-content:space-between; align-items:center; font-size:0.72rem; color:var(--home-fg-3);">
+          <span>* Penghematan waktu PM: Dari 2-3 jam pengetikan manual per dokumen menjadi 30 detik verifikasi.</span>
+          <button class="chip-btn" onclick="window.goToSlide(4)">Lanjut ke Modul 02 (Teams Briefing) ➔</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 5: MODULE 02 - TEAMS MORNING BRIEFING (07.45 WIB)
+         ============================================================ -->
+    <section id="module-morning" class="slide-panel">
+      <div class="section-content">
+        <span class="sect-meta">// SYS_PROPOSAL: MODULE_02 // INTELLIGENT BRIEFING</span>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+          <div>
+            <span class="project-tag" style="background:rgba(245,158,11,0.15); border-color:#f59e0b; color:#fbbf24;">MODUL 02: TEAMS DAILY BRIEFING</span>
+            <h2 class="project-name animate-text" style="font-size:1.9rem;">
+              Multi-Role Morning Briefing (07.45 WIB)
+            </h2>
+            <p style="font-size:0.85rem; color:var(--home-fg-2); margin-top:2px;">
+              Pukul 07.45 setiap hari kerja, AI menyaring data SharePoint, Planner, dan Accurate, lalu membagikan briefing terarah ke Microsoft Teams per role.
+            </p>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="chip-btn active teams-role-chip" onclick="window.switchTeamsRole('owner', this)">👔 Pak Melvin (Owner)</button>
+            <button class="chip-btn teams-role-chip" onclick="window.switchTeamsRole('pm', this)">🛠️ PM & Teknisi</button>
+            <button class="chip-btn teams-role-chip" onclick="window.switchTeamsRole('finance', this)">💰 Staf Finance</button>
+          </div>
+        </div>
+
+        <!-- Microsoft Teams Mockup Container -->
+        <div class="teams-mock" style="margin-top:1rem;">
+          <!-- Teams Window Header -->
+          <div class="teams-header-bar">
+            <div class="teams-header-left">
+              <div class="teams-bot-avatar">🤖</div>
+              <div>
+                <div class="teams-bot-title">MLV Co-Pilot Daily Digest (Power Automate)</div>
+                <div class="teams-bot-time">Channel: #Operations-Briefing • Scheduled 07:45 AM Everyday</div>
+              </div>
+            </div>
+            <div style="font-size:0.7rem; font-family:var(--font-mono); color:#8c8c94;">
+              MICROSOFT TEAMS NATIVE CARD
+            </div>
+          </div>
+
+          <!-- Chat Body with Adaptive Card -->
+          <div class="teams-chat-content" id="teamsCardContainer">
+            <div class="teams-adaptive-card animate-text">
+              <div class="teams-card-title">
+                <span>Executive Daily Briefing (Pak Melvin Halpito)</span>
+                <span class="teams-badge yellow">Perlu Keputusan (1 Warning)</span>
+              </div>
+              <div style="font-size:0.68rem; color:#8c8c94; margin-bottom:6px;">07:45 WIB — Selasa, 13 Okt 2026</div>
+
+              <div class="teams-grid-metrics">
+                <div class="teams-metric-box">
+                  <div class="label">Proyek Aktif</div>
+                  <div class="val">4 Proyek</div>
+                </div>
+                <div class="teams-metric-box">
+                  <div class="label">Kas Masuk Harapan</div>
+                  <div class="val">Rp 147 Jt</div>
+                </div>
+                <div class="teams-metric-box">
+                  <div class="label">Teknisi On-Field</div>
+                  <div class="val">6 Personel</div>
+                </div>
+              </div>
+
+              <ul class="teams-todo-list">
+                <li class="teams-todo-item">🟢 <strong>Bank Indonesia IKN:</strong> Instalasi Crestron & Shure on-schedule. BAST dijadwalkan tanda tangan hari Jumat.</li>
+                <li class="teams-todo-item">🟡 <strong>OJK Thamrin:</strong> Distributor Shure konfirmasi pengiriman tertunda 24 jam karena bea cukai. PM sudah siapkan unit cadangan.</li>
+                <li class="teams-todo-item">🟢 <strong>TNI AL Cilangkap:</strong> Dokumen BAST & Garansi SLA sudah di-generate AI dan menunggu tanda tangan Kolonel.</li>
+                <li class="teams-todo-item">💰 <strong>Finance Alert:</strong> Mutasi BCA masuk Rp 147.000.000,- dari PT Multi Artha Reksa (Invoice BI IKN). Menunggu approval potong PPh 23.</li>
+              </ul>
+
+              <div class="teams-actions-row">
+                <button class="teams-btn" onclick="window.goToSlide(5)">Tinjau Draft Kas Masuk</button>
+                <button class="teams-btn secondary" onclick="window.showDeckToast('Membuka Folder SharePoint M365...')">Buka SharePoint Folder Proyek</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:0.75rem; display:flex; justify-content:space-between; align-items:center; font-size:0.72rem; color:var(--home-fg-3);">
+          <span>* Tidak tenggelam di email: Langsung memicu aksi nyata staf sebelum memulai pekerjaan lapangan jam 08.00 WIB.</span>
+          <button class="chip-btn" onclick="window.goToSlide(5)">Lanjut ke Modul 03 (Kas BCA & Accurate) ➔</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 6: MODULE 03 - BCA TO ACCURATE RECONCILIATION
+         ============================================================ -->
+    <section id="module-bca-accurate" class="slide-panel">
+      <div class="section-content">
+        <span class="sect-meta">// SYS_PROPOSAL: MODULE_03 // CASH RECONCILIATION</span>
+        <div class="project-header">
+          <span class="project-tag" style="background:rgba(16,185,129,0.15); border-color:#10b981; color:#34d399;">MODUL 03: REKONSILIASI KAS BCA ➔ ACCURATE</span>
+          <h2 class="project-name animate-text">
+            Integrasi Kas Bank Tanpa Risiko Salah Jurnal
+          </h2>
+          <p style="font-size:0.88rem; color:var(--home-fg-2); margin-top:2px;">
+            Email mutasi resmi KlikBCA diekstrak oleh Claude, dicocokkan dengan tagihan di Accurate Online via REST API, diperhitungkan potongan PPh 23 (2%), lalu diposting setelah disetujui staf akuntansi.
+          </p>
+        </div>
+
+        <!-- Interactive Reconciliation Component -->
+        <div class="recon-wrapper">
+          <!-- Item 1: Invoice Payment with PPh 23 -->
+          <div class="recon-item-card">
+            <div class="recon-item-header">
+              <div>
+                <span class="recon-item-bank">NOTIFIKASI RESMI BCA // ebanking@klikbca.com</span>
+                <div style="font-size:0.85rem; font-weight:700; color:#fff; margin-top:2px;">
+                  TRSF E-BANKING CR // PT MULTI ARTHA REKSA // PEMBAYARAN TERMIN 2 BI IKN
+                </div>
+              </div>
+              <div class="recon-item-nominal">Rp 147.000.000,-</div>
+            </div>
+
+            <!-- Match Calculation Box -->
+            <div class="recon-match-box">
+              <div>
+                <span style="color:#9e9ea6;">FAKTUR ACCURATE:</span><br>
+                <strong style="color:#38bdf8;">#INV-2026-088 (Nilai: Rp 150.000.000)</strong>
+              </div>
+              <div>
+                <span style="color:#9e9ea6;">PERHITUNGAN PPH 23 (2%):</span><br>
+                <strong style="color:#fbbf24;">Potongan PPh 23 = Rp 3.000.000</strong>
+              </div>
+              <div style="text-align:right;">
+                <span style="color:#9e9ea6;">SKOR KECOCOKAN AI:</span><br>
+                <span class="pill-good">MATCH 99.8% (COCOK SEMPURNA)</span>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+              <div id="reconStatus_1" style="font-size:0.75rem; color:#fef08a;">
+                ⏳ Status: Draft Jurnal Kas Masuk Siap. Menunggu Persetujuan Mbak Finance.
+              </div>
+              <button id="reconBtn_1" class="chip-btn active" style="font-size:0.75rem; padding:6px 14px;" onclick="window.triggerBcaRecon('1', this)">
+                ✓ Approve & Post ke Accurate Online
+              </button>
+            </div>
+          </div>
+
+          <!-- Item 2: Distributor Payment Shure -->
+          <div class="recon-item-card" style="margin-bottom:0;">
+            <div class="recon-item-header">
+              <div>
+                <span class="recon-item-bank">NOTIFIKASI RESMI BCA // ebanking@klikbca.com</span>
+                <div style="font-size:0.85rem; font-weight:700; color:#fff; margin-top:2px;">
+                  TAGIHAN DISTRIBUTOR // PT SUMBER BERKAT AUDIO // DP PENGADAAN SHURE MXA920
+                </div>
+              </div>
+              <div class="recon-item-nominal" style="color:#f87171;">Rp 42.500.000,-</div>
+            </div>
+
+            <div class="recon-match-box">
+              <div>
+                <span style="color:#9e9ea6;">PO DISTRIBUTOR:</span><br>
+                <strong style="color:#38bdf8;">#PO-DIST-2026-042 (Shure Microflex)</strong>
+              </div>
+              <div>
+                <span style="color:#9e9ea6;">STATUS JATUH TEMPO:</span><br>
+                <strong style="color:#34d399;">2 Hari Sebelum Batas Akhir</strong>
+              </div>
+              <div style="text-align:right;">
+                <span style="color:#9e9ea6;">KAS KELUAR:</span><br>
+                <span class="pill-good" style="border-color:#38bdf8; color:#38bdf8; background:rgba(56,189,248,0.1);">MATCH PURCHASE ORDER</span>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+              <div id="reconStatus_2" style="font-size:0.75rem; color:#fef08a;">
+                ⏳ Status: Draft Pengeluaran Kas Siap. Menunggu Verifikasi Staf Akuntansi.
+              </div>
+              <button id="reconBtn_2" class="chip-btn active" style="font-size:0.75rem; padding:6px 14px;" onclick="window.triggerBcaRecon('2', this)">
+                ✓ Approve & Post ke Accurate Online
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:0.75rem; display:flex; justify-content:space-between; align-items:center; font-size:0.72rem; color:var(--home-fg-3);">
+          <span>* Zero-Risk: Accurate Online tidak pernah bisa diisi otomatis secara liar tanpa tombol verifikasi staf.</span>
+          <button class="chip-btn" onclick="window.goToSlide(6)">Bandingkan Opsi Engine (Claude vs Cloud) ➔</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 7: ENGINE EVALUATION - CLAUDE PRO VS CLOUD M365
+         ============================================================ -->
+    <section id="claude-tradeoff" class="slide-panel">
+      <div class="section-content">
+        <span class="sect-meta">// TECH_EVALUATION: SECTION_07 // CRITICAL TRADE-OFFS</span>
+        <div class="project-header">
+          <span class="project-tag" style="background:rgba(239,68,68,0.15); border-color:#ef4444; color:#f87171;">EVALUASI KRITIS ENGINE</span>
+          <h2 class="project-name animate-text">
+            Claude Pro Desktop vs Pure Cloud M365
+          </h2>
+          <p style="font-size:0.88rem; color:var(--home-fg-2); margin-top:2px;">
+            Menjawab Pertanyaan: <em>"Kenapa kita tidak memakai akun Claude Pro standalone saja di laptop staf untuk tembak briefing ke Teams?"</em> — Berikut catatan kerugian dan risiko operasionalnya.
+          </p>
+        </div>
+
+        <!-- Head to Head Comparison Table -->
+        <table class="tradeoff-table">
+          <thead>
+            <tr>
+              <th style="width:22%;">Parameter Operasional</th>
+              <th class="pro-col" style="width:39%;">Opsi A: Claude Pro Desktop (Standalone / MCP Lokal)</th>
+              <th class="cloud-col" style="width:39%;">Opsi B: Pure Cloud Flow (Power Automate + Claude API) ⭐ REKOMENDASI</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Reliability & Standby 24/7</strong></td>
+              <td>
+                <span class="pill-bad">BERISIKO TINGGI</span><br>
+                Bergantung 100% pada laptop staf yang menyala. Jika laptop mati, sleep, atau dibawa pulang, sistem otomatis berhenti.
+              </td>
+              <td>
+                <span class="pill-good">100% SERVERLESS CLOUD</span><br>
+                Berjalan 24/7 di cloud Microsoft Azure/M365 tanpa bergantung pada laptop fisik siapapun di kantor.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Morning Brief 07.45 WIB</strong></td>
+              <td>
+                <span class="pill-bad">TIDAK BISA JALAN</span><br>
+                Harus ada staf yang sudah membuka laptop dan menyalakan Claude sebelum jam 07.45 pagi. Sangat tidak realistis.
+              </td>
+              <td>
+                <span class="pill-good">OTOMATIS TEPAT WAKTU</span><br>
+                Cloud scheduler Power Automate otomatis mengeksekusi jam 07.45 WIB setiap hari kerja secara presisi.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Koneksi ke Microsoft Teams</strong></td>
+              <td>
+                <span class="pill-bad">KOMPLEKS & TIDAK NATIVE</span><br>
+                Claude Desktop tidak punya konektor native ke Teams organisasi. Membutuhkan script Python/webhook lokal yang rentan error.
+              </td>
+              <td>
+                <span class="pill-good">NATIVE M365 CONNECTOR</span><br>
+                Menggunakan Microsoft Teams Actionable Card resmi bawaan M365 dengan otentikasi Single Sign-On (SSO).
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Keamanan & Kredensial</strong></td>
+              <td>
+                <span class="pill-bad">RISIKO KEBOCORAN KUNCI</span><br>
+                Token kredensial disimpan di file lokal laptop pengguna. Bahaya jika laptop hilang atau terkena malware.
+              </td>
+              <td>
+                <span class="pill-good">MICROSOFT ENTRA ID</span><br>
+                Kredensial disimpan aman di Microsoft Azure Key Vault dengan audit trail berstandar perbankan.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Biaya Operasional (OpEx)</strong></td>
+              <td>
+                <strong>Flat $20 / bulan (~Rp 320.000)</strong><br>
+                Hanya bisa dipakai oleh 1 pengguna (Pak Melvin) di komputernya sendiri.
+              </td>
+              <td>
+                <strong>Pay-Per-Use Token (~Rp 75.000 - Rp 150.000 / bln)</strong><br>
+                Sangat murah untuk seluruh 9 karyawan karena hanya membayar token teks yang benar-benar dipakai.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Recommendation Banner -->
+        <div style="background:#161f18; border:1px solid #059669; border-radius:6px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-size:0.78rem; color:#a7f3d0;">
+            <strong>KESIMPULAN FLEEK:</strong> Gunakan <strong>Pure Cloud Flow (Power Automate + Claude API)</strong> untuk mesin otomatisasi harian perusahaan. Akun <strong>Claude Pro</strong> tetap ideal dipegang Pak Melvin untuk riset ad-hoc & tinjau tender tebal (RKS).
+          </div>
+          <button class="chip-btn active" onclick="window.goToSlide(7)">Cek Kepatuhan Keamanan ➔</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 8: SECURITY & CORPORATE GOVERNANCE
+         ============================================================ -->
+    <section id="security-governance" class="slide-panel">
+      <div class="section-content">
+        <span class="sect-meta">// GOVERNANCE: SECTION_08 // BANK INDONESIA & OJK GRADE</span>
+        <div class="project-header">
+          <span class="project-tag" style="background:rgba(56,189,248,0.15); border-color:#38bdf8; color:#38bdf8;">ENTERPRISE COMPLIANCE</span>
+          <h2 class="project-name animate-text">
+            Keamanan Data & Kepatuhan Regulasi
+          </h2>
+          <p style="font-size:0.88rem; color:var(--home-fg-2); margin-top:2px;">
+            Memenuhi standar kepatuhan institusi strategis (Bank Indonesia, OJK, TNI AL). Data korporat tidak pernah bocor, tidak disimpan liar, dan tidak dipakai untuk melatih model AI publik.
+          </p>
+        </div>
+
+        <div class="grid-4-col" style="margin-top:1.5rem;">
+          <div class="cyber-decor" style="padding:1.25rem;">
+            <div style="font-size:1.5rem; margin-bottom:0.5rem;">🔒</div>
+            <h4 style="font-family:var(--font-outfit); font-size:0.95rem; color:#fff;">Zero Data Leaving M365</h4>
+            <p style="font-size:0.74rem; color:var(--home-fg-2); line-height:1.5; margin-top:0.4rem;">
+              Seluruh berkas dokumen proyek, RAB, dan SPK tetap tersimpan di SharePoint tenant milik PT MLV Technology sendiri. Tidak pernah disimpan di database Fleek.
+            </p>
+          </div>
+
+          <div class="cyber-decor" style="padding:1.25rem;">
+            <div style="font-size:1.5rem; margin-bottom:0.5rem;">🛡️</div>
+            <h4 style="font-family:var(--font-outfit); font-size:0.95rem; color:#fff;">Commercial Zero-Retention</h4>
+            <p style="font-size:0.74rem; color:var(--home-fg-2); line-height:1.5; margin-top:0.4rem;">
+              Koneksi ke Claude API menggunakan kontrak Commercial Enterprise Anthropic: prompt langsung dihapus setelah diproses, tidak pernah disimpan, dan tidak dipakai melatih model.
+            </p>
+          </div>
+
+          <div class="cyber-decor" style="padding:1.25rem;">
+            <div style="font-size:1.5rem; margin-bottom:0.5rem;">🔑</div>
+            <h4 style="font-family:var(--font-outfit); font-size:0.95rem; color:#fff;">Least-Privilege Roles</h4>
+            <p style="font-size:0.74rem; color:var(--home-fg-2); line-height:1.5; margin-top:0.4rem;">
+              Akun layanan Power Automate hanya diberi hak akses baca (Read-Only) pada Accurate dan folder proyek tertentu. Tidak ada hak menghapus (Delete) apapun.
+            </p>
+          </div>
+
+          <div class="cyber-decor" style="padding:1.25rem;">
+            <div style="font-size:1.5rem; margin-bottom:0.5rem;">📋</div>
+            <h4 style="font-family:var(--font-outfit); font-size:0.95rem; color:#fff;">Audit Trail & NDE Protocol</h4>
+            <p style="font-size:0.74rem; color:var(--home-fg-2); line-height:1.5; margin-top:0.4rem;">
+              Setiap panggilan sistem dicatat di Microsoft Purview. Protokol NDE memastikan jika AI ragu terhadap dokumen, proses langsung dialihkan ke staf manusia tanpa asumsi.
+            </p>
+          </div>
+        </div>
+
+        <div class="cyber-decor" style="margin-top:1.5rem; padding:1rem 1.25rem; display:flex; justify-content:space-between; align-items:center; background:#121820; border-color:#1e3a5f;">
+          <div style="font-size:0.78rem; color:#93c5fd;">
+            <strong>PERLINDUNGAN HUKUM & PRIVASI:</strong> Seluruh perancangan dilindungi oleh NDA (Non-Disclosure Agreement) resmi Fleek Group dan mematuhi regulasi UU PDP (Pelindungan Data Pribadi) No. 27/2022.
+          </div>
+          <span class="pill-good" style="border-color:#38bdf8; color:#38bdf8; background:rgba(56,189,248,0.1);">COMPLIANT</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 9: END-TO-END BUSINESS CYCLE
+         ============================================================ -->
+    <section id="business-cycle" class="slide-panel">
+      <div class="section-content">
+        <span class="sect-meta">// LIFECYCLE: SECTION_09 // 4 DEPARTEMEN HARMONIZATION</span>
+        <div class="project-header">
+          <span class="project-tag">OPERATIONAL HARMONY</span>
+          <h2 class="project-name animate-text">
+            End-to-End Business Cycle MLV
+          </h2>
+          <p style="font-size:0.88rem; color:var(--home-fg-2); margin-top:2px;">
+            Menghubungkan 4 departemen MLV (Sales, PM/Engineering, Procurement, dan Finance) dalam 1 alur otomatis yang saling mempercepat satu sama lain.
+          </p>
+        </div>
+
+        <div class="grid-4-col" style="margin-top:1.5rem;">
+          <div class="cyber-decor" style="padding:1.2rem; border-top:3px solid #38bdf8;">
+            <div style="font-family:var(--font-mono); font-size:0.7rem; color:#38bdf8;">TAHAP 01</div>
+            <h4 style="font-family:var(--font-outfit); font-size:1.05rem; margin:0.3rem 0;">Sales & Tender</h4>
+            <p style="font-size:0.74rem; color:var(--home-fg-2); line-height:1.5;">
+              • Tinjau dokumen RKS & spesifikasi teknis tender<br>
+              • Ekstraksi BOQ perangkat Crestron / Shure<br>
+              • Penyusunan draf penawaran harga resmi
+            </p>
+          </div>
+
+          <div class="cyber-decor" style="padding:1.2rem; border-top:3px solid #7c3aed;">
+            <div style="font-family:var(--font-mono); font-size:0.7rem; color:#c4b5fd;">TAHAP 02</div>
+            <h4 style="font-family:var(--font-outfit); font-size:1.05rem; margin:0.3rem 0;">PM & Engineering</h4>
+            <p style="font-size:0.74rem; color:var(--home-fg-2); line-height:1.5;">
+              • Draf otomatis SPK Teknisi dari PO SharePoint<br>
+              • Jadwal WBS di Microsoft Planner<br>
+              • Form serah terima BAST & Garansi SLA
+            </p>
+          </div>
+
+          <div class="cyber-decor" style="padding:1.2rem; border-top:3px solid #fbbf24;">
+            <div style="font-family:var(--font-mono); font-size:0.7rem; color:#fbbf24;">TAHAP 03</div>
+            <h4 style="font-family:var(--font-outfit); font-size:1.05rem; margin:0.3rem 0;">Procurement & Gudang</h4>
+            <p style="font-size:0.74rem; color:var(--home-fg-2); line-height:1.5;">
+              • Tracking pengiriman distributor hardware<br>
+              • Pencatatan nomor seri & masa garansi<br>
+              • Notifikasi ketersediaan stok instalasi
+            </p>
+          </div>
+
+          <div class="cyber-decor" style="padding:1.2rem; border-top:3px solid #10b981;">
+            <div style="font-family:var(--font-mono); font-size:0.7rem; color:#34d399;">TAHAP 04</div>
+            <h4 style="font-family:var(--font-outfit); font-size:1.05rem; margin:0.3rem 0;">Finance & Akuntansi</h4>
+            <p style="font-size:0.74rem; color:var(--home-fg-2); line-height:1.5;">
+              • Rekonsiliasi mutasi BCA ➔ Accurate<br>
+              • Kalkulasi otomatis potongan PPh 23 (2%)<br>
+              • Penagihan termin invoice pasca-BAST
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top:1.5rem; background:#181817; border:1px dashed #333; border-radius:6px; padding:12px; text-align:center; font-size:0.78rem; color:var(--home-fg-2);">
+          🔄 <strong>Feedback Loop:</strong> Seluruh data proyek yang selesai otomatis menjadi basis pengetahuan <em>(Enterprise Knowledge Base)</em> bagi estimasi proyek tender berikutnya.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 10: COMMERCIAL SCHEME & PRICING
+         ============================================================ -->
+    <section id="commercial-scheme" class="slide-panel">
+      <div class="section-content">
+        <span class="sect-meta">// INVESTMENT: SECTION_10 // 2-PHASE STRATEGIC ROADMAP</span>
+        <div class="project-header">
+          <span class="project-tag" style="background:rgba(224,122,95,0.15); border-color:var(--fashion-terracotta); color:var(--fashion-terracotta);">SKEMA INVESTASI FLEEK</span>
+          <h2 class="project-name animate-text">
+            Investasi 2-Fase: Pilot & Scale-Up
+          </h2>
+          <p style="font-size:0.88rem; color:var(--home-fg-2); margin-top:2px;">
+            Struktur investasi yang fleksibel dan zero-risk, disesuaikan dengan prinsip Pak Melvin: <em>"Willing to spend, tapi gak besar dulu di awal sampai terbukti hasilnya."</em>
+          </p>
+        </div>
+
+        <div class="pricing-split" style="margin-top:1.2rem;">
+          <!-- FASE 1: PILOT -->
+          <div class="pricing-card featured">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="pricing-tier-tag" style="color:var(--fashion-terracotta);">FASE 01: PILOT FOUNDATION (BULAN 1)</span>
+                <span class="pill-good">PROVEN ZERO-RISK</span>
+              </div>
+              <div class="pricing-price" style="margin-top:0.5rem;">Rp 35.000.000,-</div>
+              <p style="font-size:0.76rem; color:var(--home-fg-2); margin-bottom:1rem;">
+                Membangun 3 Modul Pilot Inti yang langsung dirasakan manfaatnya oleh 9 karyawan MLV dalam 4 minggu.
+              </p>
+
+              <div style="background:#1e1e1d; padding:10px; border-radius:6px; font-size:0.74rem; line-height:1.6; margin-bottom:1rem;">
+                <strong>CAKUPAN WORKPACKAGE PILOT:</strong><br>
+                ✔ Modul 1: Pabrik Deliverables Dokumen PM (SPK, BAST, Garansi SLA)<br>
+                ✔ Modul 2: Teams Daily Morning Briefing 07.45 WIB per Role<br>
+                ✔ Modul 3: Rekonsiliasi Kas BCA ➔ Accurate Online (PPh 23 Matching)<br>
+                ✔ Setup Akun Layanan Power Automate & Claude API Integration
+              </div>
+
+              <div style="border-top:1px solid #333; padding-top:8px; font-size:0.72rem; color:#bae6fd;">
+                <strong>SKEMA PEMBAYARAN TERMIN:</strong><br>
+                • <strong>Termin 1 (DP 55%):</strong> Rp 19.250.000,- (Saat Kickoff)<br>
+                • <strong>Termin 2 (Pelunasan 45%):</strong> Rp 15.750.000,- (Pasca-UAT & Go-Live)
+              </div>
+            </div>
+
+            <div style="margin-top:1rem;">
+              <span class="stamp-confidential stamp-fashion">REKOMENDASI EKSEKUSI SEKARANG</span>
+            </div>
+          </div>
+
+          <!-- FASE 2: SCALE-UP -->
+          <div class="pricing-card">
+            <div>
+              <div class="pricing-tier-tag" style="color:#a1a1aa;">FASE 02: SCALE-UP & EXPANSION (BULAN 2-3)</div>
+              <div class="pricing-price" style="margin-top:0.5rem; color:#e4e4e7;">Rp 45.000.000,-</div>
+              <p style="font-size:0.76rem; color:var(--home-fg-2); margin-bottom:1rem;">
+                Ekspansi otomatisasi ke ranah Procurement, Tracking Garansi Prinsipal, dan Analisis Dokumen Tender RKS.
+              </p>
+
+              <div style="background:#171716; padding:10px; border-radius:6px; font-size:0.74rem; line-height:1.6; margin-bottom:1rem;">
+                <strong>CAKUPAN WORKPACKAGE TAHAP 2:</strong><br>
+                • Modul 4: Tender & RKS Analyzer (Bedah Dokumen PDF Tender Ratusan Halaman)<br>
+                • Modul 5: Procurement & Serial Number Tracking (Crestron/Shure/Barco)<br>
+                • Modul 6: Multi-Project Gantt & Resource Allocation di MS Planner<br>
+                • Total Investasi Penuh 2-Fase: Rp 80.000.000,-
+              </div>
+
+              <div style="border-top:1px solid #282826; padding-top:8px; font-size:0.72rem; color:var(--home-fg-3);">
+                <strong>OPEX API AI KLIEN (BULANAN):</strong><br>
+                Sangat hemat, hanya ~Rp 75.000 - Rp 150.000/bln (Claude API Pay-per-Use) + M365 yang sudah dimiliki MLV.
+              </div>
+            </div>
+
+            <div style="margin-top:1rem;">
+              <button class="chip-btn" style="width:100%; justify-content:center;" onclick="window.goToSlide(10)">
+                Lihat Roadmap 4 Minggu ➔
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 11: 4-WEEKS IMPLEMENTATION ROADMAP
+         ============================================================ -->
+    <section id="roadmap" class="slide-panel">
+      <div class="section-content">
+        <span class="sect-meta">// EXECUTION: SECTION_11 // 4-WEEKS SPRINT TO GO-LIVE</span>
+        <div class="project-header">
+          <span class="project-tag">TIME TO VALUE</span>
+          <h2 class="project-name animate-text">
+            Roadmap Sprint 4 Minggu Menuju Go-Live
+          </h2>
+          <p style="font-size:0.88rem; color:var(--home-fg-2); margin-top:2px;">
+            Metodologi implementasi tangkas (Agile) tanpa mengganggu jalannya proyek harian yang sedang dikerjakan tim MLV.
+          </p>
+        </div>
+
+        <div class="grid-4-col" style="margin-top:1.5rem;">
+          <div class="cyber-decor" style="padding:1.25rem; border-top:3px solid #0078d4;">
+            <div style="font-family:var(--font-mono); font-size:0.7rem; color:#38bdf8;">MINGGU 01</div>
+            <h4 style="font-family:var(--font-outfit); font-size:1rem; margin:0.4rem 0;">Setup & Foundation</h4>
+            <ul style="font-size:0.72rem; color:var(--home-fg-2); padding-left:14px; line-height:1.55;">
+              <li>Pemberian hak akses Service Principal Power Automate di M365 Pak Melvin</li>
+              <li>Pemetaan folder SharePoint proyek & template Word SPK/BAST</li>
+              <li>Setup Anthropic Commercial API key</li>
+            </ul>
+          </div>
+
+          <div class="cyber-decor" style="padding:1.25rem; border-top:3px solid #7c3aed;">
+            <div style="font-family:var(--font-mono); font-size:0.7rem; color:#c4b5fd;">MINGGU 02</div>
+            <h4 style="font-family:var(--font-outfit); font-size:1rem; margin:0.4rem 0;">Modul PM & Teams</h4>
+            <ul style="font-size:0.72rem; color:var(--home-fg-2); padding-left:14px; line-height:1.55;">
+              <li>Deployment Modul 1: Pabrik Deliverables Dokumen PM</li>
+              <li>Deployment Modul 2: Teams Morning Briefing 07.45 WIB</li>
+              <li>Uji coba ekstraksi BOQ proyek Bank Indonesia IKN</li>
+            </ul>
+          </div>
+
+          <div class="cyber-decor" style="padding:1.25rem; border-top:3px solid #fbbf24;">
+            <div style="font-family:var(--font-mono); font-size:0.7rem; color:#fbbf24;">MINGGU 03</div>
+            <h4 style="font-family:var(--font-outfit); font-size:1rem; margin:0.4rem 0;">BCA & Accurate Engine</h4>
+            <ul style="font-size:0.72rem; color:var(--home-fg-2); padding-left:14px; line-height:1.55;">
+              <li>Koneksi email notifikasi BCA ebanking ke Power Automate</li>
+              <li>Integrasi Accurate Online REST API (Read-only tagihan)</li>
+              <li>Kalibrasi formula potongan PPh 23 (2%) & Human Gate</li>
+            </ul>
+          </div>
+
+          <div class="cyber-decor" style="padding:1.25rem; border-top:3px solid #10b981;">
+            <div style="font-family:var(--font-mono); font-size:0.7rem; color:#34d399;">MINGGU 04</div>
+            <h4 style="font-family:var(--font-outfit); font-size:1rem; margin:0.4rem 0;">UAT & Handover</h4>
+            <ul style="font-size:0.72rem; color:var(--home-fg-2); padding-left:14px; line-height:1.55;">
+              <li>User Acceptance Testing (UAT) bersama Pak Melvin & PM</li>
+              <li>Pelatihan singkat 9 karyawan MLV (cara pakai Teams & approve)</li>
+              <li>Go-Live Operasional & Serah Terima Dokumentasi</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="cyber-decor" style="margin-top:1.5rem; padding:1rem 1.25rem; display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-size:0.78rem; color:var(--home-fg-1);">
+            <strong style="color:#10b981;">GARANSI FLEEK:</strong> Pendampingan teknis intensif selama 30 hari pasca-Go Live untuk memastikan adaptasi sistem berjalan sempurna.
+          </div>
+          <button class="chip-btn active" onclick="window.goToSlide(11)">Buka Technical Gate & Closing ➔</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 12: IT TEAM BRIEFING GATE & CLOSING SIGN-OFF
+         ============================================================ -->
+    <section id="itbrief" class="slide-panel">
+      <div class="section-content">
+        <span class="sect-meta">// CLOSING: SECTION_12 // PARTNERSHIP & IT BRIEF GATE</span>
+        <div class="project-header">
+          <span class="project-tag" style="background:rgba(255,0,51,0.15); border-color:#FF0033; color:#FF0033;">SECURITY GATE & SIGN-OFF</span>
+          <h2 class="project-name animate-text">
+            Pengesahan Kemitraan & IT Engineering Brief
+          </h2>
+          <p style="font-size:0.88rem; color:var(--home-fg-2); margin-top:2px;">
+            Gerbang proteksi spesifikasi teknis internal Fleek. Masukkan passcode untuk membuka rancangan JSON, endpoint, dan prompt sistem.
+          </p>
+        </div>
+
+        <!-- Terminal Lock Screen Gate -->
+        <div id="terminalLockScreen" class="lock-terminal">
+          <div class="terminal-title">🔒 IT ENGINEERING ACCESS GATE</div>
+          <div class="terminal-subtitle">
+            Halaman ini memuat skema teknis JSON Power Automate, Prompt Claude, & Endpoint Accurate. Masukkan passcode resmi untuk verifikasi.
+          </div>
+          <div class="terminal-input-wrap">
+            <input type="password" id="passcodeInput" class="terminal-input" placeholder="PASSCODE" maxlength="10">
+            <button id="unlockBtn" class="terminal-btn">UNLOCK</button>
+          </div>
+          <div id="errorMessage" class="terminal-error-msg">Passcode Salah. Gunakan kode standar: fleek</div>
+          <div style="font-size:0.68rem; color:var(--home-fg-3); margin-top:6px;">
+            Petunjuk: Passcode internal Fleek adalah <strong>fleek</strong>
+          </div>
+        </div>
+
+        <!-- Unlocked IT Engineering Content -->
+        <div id="itUnlockedContent" class="it-brief-content">
+          <div style="display:flex; justify-content:space-between; align-items:center; background:#1e1e1d; padding:8px 12px; border-radius:6px; margin-bottom:10px;">
+            <span style="font-size:0.8rem; font-weight:700; color:#34d399;">✓ ACCESS GRANTED // CREDENTIAL VERIFIED</span>
+            <span style="font-size:0.68rem; font-family:var(--font-mono); color:#a1a1aa;">SPEC: MLV-M365-PILOT-v1.0</span>
+          </div>
+
+          <div class="it-grid">
+            <div class="it-card">
+              <h4>1. Power Automate Webhook Dispatcher</h4>
+              <p style="font-size:0.75rem; color:var(--home-fg-2); margin-bottom:6px;">
+                Payload trigger otomatis saat dokumen kontrak baru masuk ke SharePoint Proyek:
+              </p>
+              <pre>{
+  "trigger": "SharePoint_OnItemCreated",
+  "siteUrl": "https://mlvtechnology.sharepoint.com/sites/Projects",
+  "folder": "Bank Indonesia IKN",
+  "action": "Invoke_Anthropic_Claude_API",
+  "model": "claude-3-5-sonnet-20241022",
+  "max_tokens": 1500,
+  "zero_retention": true
+}</pre>
+            </div>
+
+            <div class="it-card">
+              <h4>2. Accurate Online Read-Only Mapping</h4>
+              <p style="font-size:0.75rem; color:var(--home-fg-2); margin-bottom:6px;">
+                Endpoint REST API pencocokan faktur tanpa hak modifikasi langsung:
+              </p>
+              <pre>// GET /accurate/api/sales-invoice/list.do
+{
+  "customerName": "PT Multi Artha Reksa",
+  "status": "UNPAID",
+  "totalAmount": 150000000,
+  "pph23_rate": 0.02,
+  "expected_net": 147000000,
+  "approval_state": "PENDING_HUMAN_GATE"
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Closing Signature Box -->
+        <div style="margin-top:2rem; background:#141413; border:1px solid #282826; border-radius:8px; padding:1.25rem;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
+            <div style="border-right:1px solid #2a2a28; padding-right:1.5rem;">
+              <span style="font-size:0.7rem; color:var(--home-fg-3); font-family:var(--font-mono);">PIHAK PERTAMA (KLIEN):</span>
+              <div style="font-family:var(--font-outfit); font-weight:700; font-size:1.05rem; color:#fff; margin-top:2px;">
+                PT MLV TECHNOLOGY
+              </div>
+              <div style="height:60px; display:flex; align-items:center; font-family:'Brush Script MT', cursive; font-size:1.8rem; color:#38bdf8;">
+                Melvin Halpito
+              </div>
+              <div style="font-size:0.75rem; color:var(--home-fg-2);">
+                <strong>Pak Melvin Halpito</strong><br>
+                Direktur Utama PT MLV Technology
+              </div>
+            </div>
+
+            <div style="padding-left:0.5rem;">
+              <span style="font-size:0.7rem; color:var(--home-fg-3); font-family:var(--font-mono);">PIHAK KEDUA (ARSITEK AI):</span>
+              <div style="font-family:var(--font-outfit); font-weight:700; font-size:1.05rem; color:#fff; margin-top:2px;">
+                PT FLEEK GROUP INDONESIA
+              </div>
+              <div style="height:60px; display:flex; align-items:center; font-family:'Brush Script MT', cursive; font-size:1.8rem; color:var(--home-accent);">
+                Dimitri Ahmad
+              </div>
+              <div style="font-size:0.75rem; color:var(--home-fg-2);">
+                <strong>Dimitri Ahmad</strong><br>
+                Lead AI Architect & Founder Fleek Group
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:1.2rem; text-align:center; font-size:0.7rem; color:var(--home-fg-3); font-family:var(--font-mono);">
+          Confidential - PT Fleek Group Indonesia - Fleek Project
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Load Anime.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <!-- Load Deck Application Logic -->
+  <script>
+/**
+ * FLEEK ENTERPRISE AI CO-PILOT // PT MLV TECHNOLOGY (PAK MELVIN HALPITO)
+ * Interactive Presentation Morph Deck Engine & Simulators
+ * Standards: SKILL.PPTFLEEK & Rule 11 (Vercel Template Pattern)
+ */
+
+document.addEventListener('DOMContentLoaded', () => {
+  // --- DOM Elements ---
+  const htmlElement = document.documentElement;
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  const printBtn = document.getElementById('printBtn') || document.getElementById('printDeckBtn');
+  const navToggleBtn = document.getElementById('navToggleBtn');
+  const navDrawer = document.getElementById('navDrawer');
+  const navOverlay = document.getElementById('navOverlay');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const scrollProgressBar = document.getElementById('scrollProgressBar') || document.getElementById('deckProgressBar');
+  const slideCounter = document.getElementById('slideCounter');
+  const prevBtn = document.getElementById('prevSlideBtn');
+  const nextBtn = document.getElementById('nextSlideBtn');
+  const deckToast = document.getElementById('deckToast');
+  const deckToastText = document.getElementById('deckToastText');
+
+  // IT Brief Elements
+  const passcodeInput = document.getElementById('passcodeInput') || document.getElementById('itPasscodeInput');
+  const unlockBtn = document.getElementById('unlockBtn') || document.getElementById('itSubmitBtn');
+  const terminalLockScreen = document.getElementById('terminalLockScreen');
+  const itUnlockedContent = document.getElementById('itUnlockedContent');
+  const errorMessage = document.getElementById('errorMessage');
+
+  // Slide IDs array (12 Slides)
+  const slideIds = [
+    'opening',
+    'painpoint',
+    'fleek-flow',
+    'module-pm',
+    'module-morning',
+    'module-bca-accurate',
+    'claude-tradeoff',
+    'security-governance',
+    'business-cycle',
+    'commercial-scheme',
+    'roadmap',
+    'itbrief'
+  ];
+
+  let currentIndex = 0;
+  let isTransitioning = false;
+  const cooldownMs = 600;
+
+  // --- Typewriter Word & Letter Wrapper ---
+  const animateTexts = document.querySelectorAll('.animate-text');
+  animateTexts.forEach(el => {
+    const text = el.textContent.trim();
+    const words = text.split(/\s+/);
+    let wrappedHTML = '';
+    
+    words.forEach((wordText, wordIdx) => {
+      let wordHTML = '<span class="word" style="display:inline-block; white-space:nowrap;">';
+      for (let i = 0; i < wordText.length; i++) {
+        wordHTML += `<span class="letter" style="display:inline-block;">${wordText[i]}</span>`;
+      }
+      wordHTML += '</span>';
+      wrappedHTML += wordHTML;
+      if (wordIdx < words.length - 1) {
+        wrappedHTML += ' ';
+      }
+    });
+    
+    el.innerHTML = wrappedHTML;
+  });
+
+  // --- Anime.js Entry Trigger ---
+  function triggerAnimeAnimations(content) {
+    if (typeof anime === 'undefined') return;
+
+    // 1. Letters stagger
+    const letters = content.querySelectorAll('.letter');
+    if (letters.length > 0) {
+      anime.remove(letters);
+      anime.set(letters, { opacity: 0, translateY: 12 });
+      anime({
+        targets: letters,
+        opacity: [0, 1],
+        translateY: [12, 0],
+        delay: anime.stagger(10),
+        duration: 450,
+        easing: 'easeOutQuad'
+      });
+    }
+
+    // 2. Stagger block cards
+    const items = content.querySelectorAll('.cyber-decor, .fleek-flow-architecture-wrapper, .teams-mock, .doc-sim-wrapper, .recon-wrapper, .tradeoff-table, .pricing-card, .timeline-project-track');
+    if (items.length > 0) {
+      anime.remove(items);
+      anime.set(items, { opacity: 0, translateY: 18 });
+      anime({
+        targets: items,
+        opacity: [0, 1],
+        translateY: [18, 0],
+        delay: anime.stagger(90, { start: 120 }),
+        duration: 550,
+        easing: 'easeOutQuart'
+      });
+    }
+  }
+
+  // --- Show Slide & State Update ---
+  function showSlide(index) {
+    if (index < 0 || index >= slideIds.length) return;
+
+    const slides = document.querySelectorAll('.slide-panel');
+    slides.forEach(s => {
+      s.classList.remove('active-slide');
+      s.classList.remove('active');
+    });
+
+    const targetSlide = document.getElementById(slideIds[index]);
+    if (targetSlide) {
+      targetSlide.classList.add('active-slide');
+      targetSlide.classList.add('active');
+
+      const content = targetSlide.querySelector('.section-content');
+      if (content) {
+        triggerAnimeAnimations(content);
+      }
+    }
+
+    // Counter
+    if (slideCounter) {
+      const padCurrent = String(index + 1).padStart(2, '0');
+      const padTotal = String(slideIds.length).padStart(2, '0');
+      slideCounter.textContent = `${padCurrent} / ${padTotal}`;
+    }
+
+    // Nav drawer highlight
+    navLinks.forEach(link => {
+      const targetHref = link.getAttribute('href').replace('#', '');
+      if (targetHref === slideIds[index]) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+
+    // Top progress bar
+    if (scrollProgressBar) {
+      const progressPercent = ((index + 1) / slideIds.length) * 100;
+      scrollProgressBar.style.width = `${progressPercent}%`;
+    }
+
+    currentIndex = index;
+  }
+
+  // Navigation API
+  window.goToSlide = function(index) {
+    if (index < 0 || index >= slideIds.length || isTransitioning) return;
+    isTransitioning = true;
+    showSlide(index);
+    setTimeout(() => { isTransitioning = false; }, cooldownMs);
+  };
+
+  window.nextSlide = function() {
+    if (currentIndex < slideIds.length - 1) {
+      window.goToSlide(currentIndex + 1);
+    }
+  };
+
+  window.prevSlide = function() {
+    if (currentIndex > 0) {
+      window.goToSlide(currentIndex - 1);
+    }
+  };
+
+  if (prevBtn) prevBtn.addEventListener('click', window.prevSlide);
+  if (nextBtn) nextBtn.addEventListener('click', window.nextSlide);
+
+  // Boundary Checks for internal scroll
+  function canTransition(direction) {
+    const activeSlide = document.getElementById(slideIds[currentIndex]);
+    if (!activeSlide) return true;
+
+    const isScrollable = activeSlide.scrollHeight > activeSlide.clientHeight;
+    if (!isScrollable) return true;
+
+    if (direction > 0) {
+      return activeSlide.scrollTop + activeSlide.clientHeight >= activeSlide.scrollHeight - 8;
+    } else {
+      return activeSlide.scrollTop <= 8;
+    }
+  }
+
+  // Wheel navigation
+  let wheelTimer = null;
+  window.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) < 30) return;
+    if (isTransitioning || wheelTimer) return;
+
+    const direction = e.deltaY > 0 ? 1 : -1;
+    if (canTransition(direction)) {
+      isTransitioning = true;
+      if (direction > 0) window.nextSlide();
+      else window.prevSlide();
+      wheelTimer = setTimeout(() => {
+        wheelTimer = null;
+        isTransitioning = false;
+      }, cooldownMs);
+    }
+  }, { passive: true });
+
+  // Keyboard navigation
+  window.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+      return; // allow form typing
+    }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault();
+      window.nextSlide();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
+      e.preventDefault();
+      window.prevSlide();
+    }
+  });
+
+  // Touch navigation
+  let touchStartY = 0;
+  window.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    const touchEndY = e.changedTouches[0].clientY;
+    const diffY = touchStartY - touchEndY;
+    if (Math.abs(diffY) > 50 && !isTransitioning) {
+      if (diffY > 0) window.nextSlide();
+      else window.prevSlide();
+    }
+  }, { passive: true });
+
+  // Drawer Interactions
+  if (navToggleBtn && navDrawer) {
+    navToggleBtn.addEventListener('click', () => {
+      navDrawer.classList.toggle('open');
+      if (navOverlay) navOverlay.classList.toggle('open');
+    });
+
+    if (navOverlay) {
+      navOverlay.addEventListener('click', () => {
+        navDrawer.classList.remove('open');
+        navOverlay.classList.remove('open');
+      });
+    }
+
+    const closeNavBtn = document.getElementById('closeNavBtn');
+    if (closeNavBtn) {
+      closeNavBtn.addEventListener('click', () => {
+        navDrawer.classList.remove('open');
+        if (navOverlay) navOverlay.classList.remove('open');
+      });
+    }
+
+    navLinks.forEach((link, idx) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.goToSlide(idx);
+        navDrawer.classList.remove('open');
+        if (navOverlay) navOverlay.classList.remove('open');
+      });
+    });
+  }
+
+  // Theme Toggle
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = htmlElement.getAttribute('data-theme') || 'dark';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      htmlElement.setAttribute('data-theme', newTheme);
+      showToast(`Tema beralih ke: ${newTheme.toUpperCase()} MODE`);
+    });
+  }
+
+  // Print PDF
+  if (printBtn) {
+    printBtn.addEventListener('click', () => {
+      window.print();
+    });
+  }
+
+  function showToast(msg) {
+    if (!deckToast || !deckToastText) return;
+    deckToastText.textContent = msg;
+    deckToast.classList.add('show');
+    setTimeout(() => {
+      deckToast.classList.remove('show');
+    }, 2800);
+  }
+  window.showDeckToast = showToast;
+
+  // Initialize first slide
+  showSlide(0);
+
+  // ============================================================
+  // 🔥 INTERACTIVE 1: Fleek Engineer FLOW FILTER CONTROLLER (SLIDE 03)
+  // ============================================================
+  window.filterFleekFlow = function(filterMode, btnEl) {
+    if (btnEl) {
+      document.querySelectorAll('.fleek-flow-filter-btn').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+    }
+
+    const allInputs = document.querySelectorAll('.fleek-flow-box-input');
+    const claudeBox = document.querySelector('.fleek-flow-box-claude');
+    const rulesBox = document.querySelector('.fleek-flow-box-rules');
+    const humanGate = document.querySelector('.fleek-flow-box-human-gate');
+    const allOutputs = document.querySelectorAll('.fleek-flow-box-output');
+    const explanationEl = document.getElementById('fleekFilterExplanation');
+
+    // Reset styles
+    const resetAll = () => {
+      allInputs.forEach(el => { el.style.opacity = '1'; el.style.borderColor = '#333'; });
+      if (claudeBox) { claudeBox.style.opacity = '1'; claudeBox.style.boxShadow = '0 4px 16px rgba(124, 58, 237, 0.2)'; }
+      if (rulesBox) { rulesBox.style.opacity = '1'; }
+      if (humanGate) { humanGate.style.opacity = '1'; }
+      allOutputs.forEach(el => { el.style.opacity = '1'; el.style.borderColor = '#333'; });
+    };
+
+    resetAll();
+
+    if (filterMode === 'all') {
+      if (explanationEl) {
+        explanationEl.innerHTML = `<strong>Tampilan Utuh (End-to-End):</strong> Menampilkan integrasi penuh dari 4 input data perusahaan melalui Power Automate, pemisahan engine Claude (ungu) vs validasi deterministik (hijau), gatekeeper manusia, hingga 3 output pilot dan log audit.`;
+      }
+    } else if (filterMode === 'pm') {
+      allInputs[0].style.borderColor = '#38bdf8'; // SharePoint
+      allInputs[1].style.opacity = '0.35';
+      allInputs[2].style.opacity = '0.35';
+      allInputs[3].style.opacity = '0.35';
+
+      allOutputs[0].style.borderColor = '#38bdf8'; // Output 1 PM
+      allOutputs[1].style.opacity = '0.35';
+      allOutputs[2].style.opacity = '0.35';
+
+      if (explanationEl) {
+        explanationEl.innerHTML = `<strong>Jalur Alur PM:</strong> <span style="color:#38bdf8;">SharePoint (Kontrak/PO)</span> ➔ Power Automate ➔ <span style="color:#c4b5fd;">Claude (Ekstrak Item BOQ & Klausul SLA)</span> ➔ <span style="color:#a7f3d0;">Validasi Format Template Word M365</span> ➔ <span style="color:#34d399;">Review Human PM</span> ➔ <strong>Draf SPK, BAST, & Garansi SLA Otomatis</strong>.`;
+      }
+    } else if (filterMode === 'morning') {
+      allInputs[0].style.borderColor = '#fbbf24'; // SharePoint
+      allInputs[1].style.borderColor = '#fbbf24'; // Outlook
+      allInputs[2].style.borderColor = '#fbbf24'; // Accurate
+      allInputs[3].style.opacity = '0.35';
+
+      allOutputs[0].style.opacity = '0.35';
+      allOutputs[1].style.borderColor = '#fbbf24'; // Output 2 Morning Briefing
+      allOutputs[2].style.opacity = '0.35';
+
+      if (explanationEl) {
+        explanationEl.innerHTML = `<strong>Jalur Morning Brief 07.45:</strong> Mengumpulkan data progress dari SharePoint + Outlook + Accurate ➔ Power Automate ➔ <span style="color:#c4b5fd;">Claude (Sintesis Cerdas & Deteksi Risiko Merah/Kuning/Hijau)</span> ➔ Broadcast Adaptive Card ke <strong>Microsoft Teams Channel masing-masing role</strong>.`;
+      }
+    } else if (filterMode === 'bca') {
+      allInputs[0].style.opacity = '0.35';
+      allInputs[1].style.opacity = '0.35';
+      allInputs[2].style.borderColor = '#34d399'; // Accurate
+      allInputs[3].style.borderColor = '#34d399'; // BCA
+
+      allOutputs[0].style.opacity = '0.35';
+      allOutputs[1].style.opacity = '0.35';
+      allOutputs[2].style.borderColor = '#34d399'; // Output 3 Kas Accurate
+
+      if (explanationEl) {
+        explanationEl.innerHTML = `<strong>Jalur Rekonsiliasi Kas BCA:</strong> <span style="color:#38bdf8;">Email Notifikasi Mutasi BCA</span> ➔ <span style="color:#c4b5fd;">Claude (Ekstrak Berita Transfer & Pengirim)</span> ➔ <span style="color:#a7f3d0;">Kalkulasi PPh 23 (2%) & Match Tagihan Accurate</span> ➔ <strong>Approval Mbak Finance</strong> ➔ Post Jurnal Kas Masuk.`;
+      }
+    }
+  };
+
+  // ============================================================
+  // 🔥 INTERACTIVE 2: PM DELIVERABLES GENERATOR (SLIDE 04)
+  // ============================================================
+  const samplePmProjects = {
+    'bi-ikn': {
+      client: 'Bank Indonesia (Perwakilan IKN)',
+      poNumber: 'PO-BI/IKN/2026/094',
+      scope: 'Pengadaan & Instalasi Ruang Rapat Dewan Gubernur (Command Boardroom)',
+      items: [
+        '1x Crestron CP4N 4-Series Control System',
+        '2x Shure MXA920 Ceiling Array Microphone (Dante)',
+        '1x Barco ClickShare CX-50 Gen 2 Wireless Presentation',
+        '1x Unilumin LED Video Wall P1.5 Native 4K UHD'
+      ],
+      pmName: 'Budi Santoso, S.T.',
+      slaPeriod: '24 Bulan On-Site SLA (4 Jam Respon Darurat)'
+    },
+    'ojk-thamrin': {
+      client: 'Otoritas Jasa Keuangan (OJK Pusat - Gd. Soemitro)',
+      poNumber: 'SPK-OJK/IT-AV/IV/2026/012',
+      scope: 'Upgrade Video Conference & Acoustic Tuning Ruang Media Center',
+      items: [
+        '1x Q-SYS Core 110f Unified Audio Processor',
+        '4x Sennheiser TeamConnect Ceiling 2 Microphone',
+        '2x PTZ Optics 4K Studio Broadcast Cameras',
+        '1x Crestron Flex UC Tabletop Conference Device'
+      ],
+      pmName: 'Hendri Kurniawan',
+      slaPeriod: '12 Bulan Garansi Suku Cadang & Service Rutin Tiap Kuartal'
+    },
+    'tni-al': {
+      client: 'Mabes TNI Angkatan Laut (Cilangkap)',
+      poNumber: 'KTR/DISINFOLAHTAL/2026/88-AV',
+      scope: 'Sistem Audiovisual Taktis & Secure Audio Encryption War Room',
+      items: [
+        '1x Extron IPCP Pro 555 IP Link Pro Control Processor',
+        '8x Beyerdynamic Classis Push-to-Talk Secure Delegate Units',
+        '1x Blackmagic Design ATEM Television Studio 4K8',
+        '2x Samsung The Wall Commercial MicroLED Display'
+      ],
+      pmName: 'Budi Santoso, S.T.',
+      slaPeriod: '36 Bulan High-Security Mission Critical Support'
+    }
+  };
+
+  window.generatePmDoc = function() {
+    const projectKey = document.getElementById('pmSelectProject')?.value || 'bi-ikn';
+    const docType = document.getElementById('pmSelectDocType')?.value || 'spk';
+    const previewContainer = document.getElementById('pmDocPreviewContent');
+    const statusBadge = document.getElementById('pmGenStatusBadge');
+
+    if (!previewContainer) return;
+    const proj = samplePmProjects[projectKey];
+
+    if (statusBadge) {
+      statusBadge.textContent = 'MEMPROSES POWER AUTOMATE + CLAUDE...';
+      statusBadge.style.color = '#fbbf24';
+    }
+
+    setTimeout(() => {
+      let docHtml = '';
+      const todayStr = '13 Oktober 2026';
+
+      if (docType === 'spk') {
+        docHtml = `
+          <div class="doc-preview-header">
+            <div>
+              <div class="doc-preview-title">SURAT PERINTAH KERJA (SPK) TEKNISI</div>
+              <div class="doc-preview-meta">No. Dokumen: SPK-MLV/ENG/${proj.poNumber.split('/')[2] || '2026'}/041</div>
+            </div>
+            <div style="text-align:right;">
+              <span style="font-size:0.7rem; font-weight:700; color:#0078d4;">PT MLV TECHNOLOGY</span><br>
+              <span style="font-size:0.65rem; color:#6b7280;">M365 SharePoint Generator</span>
+            </div>
+          </div>
+          <div class="doc-preview-body">
+            <p><strong>Kepada Yth. Tim Engineering & Teknisi Lapangan:</strong></p>
+            <table style="width:100%; margin:8px 0; font-size:0.72rem; border-collapse:collapse;">
+              <tr><td style="width:120px; color:#4b5563;">Proyek Klien:</td><td><strong>${proj.client}</strong></td></tr>
+              <tr><td style="color:#4b5563;">No. Acuan PO/RAB:</td><td>${proj.poNumber}</td></tr>
+              <tr><td style="color:#4b5563;">Project Manager (PM):</td><td>${proj.pmName}</td></tr>
+              <tr><td style="color:#4b5563;">Lingkup Kerja:</td><td>${proj.scope}</td></tr>
+              <tr><td style="color:#4b5563;">Tanggal Mulai:</td><td>${todayStr} s/d Selesai Testing</td></tr>
+            </table>
+            <p style="margin-top:6px;"><strong>Daftar Peralatan & BOM Yang Wajib Dibawa:</strong></p>
+            <ul style="padding-left:16px; margin:4px 0;">
+              ${proj.items.map(it => `<li>${it}</li>`).join('')}
+            </ul>
+            <p style="margin-top:8px; font-size:0.68rem; color:#4b5563; background:#f3f4f6; padding:6px; border-radius:4px;">
+              ⚠️ <em>Catatan Khusus SOP: Pengkabelan audio Dante wajib menggunakan Cat6A STP shielded. Lakukan firmware update pada kontrol Crestron sebelum kabel patch dipasang.</em>
+            </p>
+          </div>
+          <div class="doc-stamp-draft">DRAFT PM VERIFIED</div>
+        `;
+      } else if (docType === 'bast') {
+        docHtml = `
+          <div class="doc-preview-header">
+            <div>
+              <div class="doc-preview-title">BERITA ACARA SERAH TERIMA (BAST) PEKERJAAN</div>
+              <div class="doc-preview-meta">No. BAST-MLV/OPS/${proj.poNumber.split('/')[2] || '2026'}/019</div>
+            </div>
+            <div style="text-align:right;">
+              <span style="font-size:0.7rem; font-weight:700; color:#0078d4;">PT MLV TECHNOLOGY</span>
+            </div>
+          </div>
+          <div class="doc-preview-body">
+            <p>Pada hari ini, <strong>Selasa tanggal 13 Oktober 2026</strong>, bertempat di lokasi proyek, telah diselesaikan pekerjaan instalasi dan komisioning Audiovisual untuk:</p>
+            <div style="background:#f9fafb; padding:8px; border:1px solid #e5e7eb; border-radius:4px; margin:6px 0;">
+              <div><strong>Klien:</strong> ${proj.client}</div>
+              <div><strong>Pekerjaan:</strong> ${proj.scope}</div>
+              <div><strong>Dasar Kontrak:</strong> ${proj.poNumber}</div>
+            </div>
+            <p><strong>Hasil Pengujian Fungsional (Commissioning Checklist):</strong></p>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px; font-size:0.7rem; margin:6px 0;">
+              <div>☑ Audio Dante Matrix: <strong>LULUS (Noise floor < -60dB)</strong></div>
+              <div>☑ 4K Video Switching: <strong>LULUS (< 100ms Latency)</strong></div>
+              <div>☑ DSP Echo Cancellation: <strong>LULUS (Zero Feedback)</strong></div>
+              <div>☑ Touch Panel GUI: <strong>LULUS (Responsive)</strong></div>
+            </div>
+            <p style="font-size:0.7rem;">Dengan ditandatanganinya BAST ini, pekerjaan dinyatakan <strong>DITERIMA BAIK (100% SELESAI)</strong> dan klausul penagihan termin pelunasan dapat diterbitkan.</p>
+          </div>
+          <div class="doc-stamp-draft">SIAP TANDA TANGAN</div>
+        `;
+      } else {
+        docHtml = `
+          <div class="doc-preview-header">
+            <div>
+              <div class="doc-preview-title">SERTIFIKAT GARANSI RESMI & PERJANJIAN SLA</div>
+              <div class="doc-preview-meta">SLA No. SLA-MLV-CERT-2026-X99</div>
+            </div>
+            <div style="text-align:right;">
+              <span style="font-size:0.7rem; font-weight:700; color:#0078d4;">PT MLV TECHNOLOGY</span>
+            </div>
+          </div>
+          <div class="doc-preview-body">
+            <p>Diberikan kepada: <strong>${proj.client}</strong></p>
+            <p>Sebagai bukti jaminan purna jual resmi atas perangkat sistem audiovisual yang terpasang berdasarkan kontrak <strong>${proj.poNumber}</strong>.</p>
+            <div style="border-left:3px solid #10b981; padding-left:10px; margin:8px 0; background:#f0fdf4; padding:6px 10px;">
+              <strong>Komitmen SLA Garansi:</strong><br>
+              ${proj.slaPeriod}
+            </div>
+            <p><strong>Cakupan Jaminan:</strong></p>
+            <ul style="padding-left:16px; margin:4px 0; font-size:0.7rem;">
+              <li>Penggantian unit cadangan <em>(hot-swap replacement unit)</em> dalam 1x24 jam untuk perangkat kendali utama.</li>
+              <li>Kalibrasi akustik dan pembaharuan firmware tahunan secara berkala.</li>
+              <li>Hotline dukungan teknis darurat via Microsoft Teams Tenant / Dedicated Support.</li>
+            </ul>
+          </div>
+          <div class="doc-stamp-draft">OFFICIAL WARRANTY</div>
+        `;
+      }
+
+      previewContainer.innerHTML = docHtml;
+      if (statusBadge) {
+        statusBadge.textContent = 'DRAF SIAP // TERSIMPAN DI SHAREPOINT';
+        statusBadge.style.color = '#34d399';
+      }
+      showToast('Dokumen PM berhasil di-generate dari SharePoint Kontrak!');
+    }, 450);
+  };
+
+  // ============================================================
+  // 🔥 INTERACTIVE 3: TEAMS MORNING BRIEFING MOCKUP (SLIDE 05)
+  // ============================================================
+  const sampleTeamsBriefs = {
+    'owner': {
+      roleTitle: 'Executive Daily Briefing (Pak Melvin Halpito)',
+      badgeClass: 'yellow',
+      badgeText: 'Perlu Keputusan (1 Warning)',
+      time: '07:45 WIB — Selasa, 13 Okt 2026',
+      metrics: [
+        { label: 'Proyek Aktif', val: '4 Proyek' },
+        { label: 'Kas Masuk Harapan', val: 'Rp 147 Jt' },
+        { label: 'Teknisi On-Field', val: '6 Personel' }
+      ],
+      todos: [
+        '🟢 <strong>Bank Indonesia IKN:</strong> Instalasi Crestron & Shure on-schedule. BAST dijadwalkan tanda tangan hari Jumat.',
+        '🟡 <strong>OJK Thamrin:</strong> Distributor Shure konfirmasi pengiriman tertunda 24 jam karena bea cukai. PM sudah siapkan unit cadangan.',
+        '🟢 <strong>TNI AL Cilangkap:</strong> Dokumen BAST & Garansi SLA sudah di-generate AI dan menunggu tanda tangan Kolonel.',
+        '💰 <strong>Finance Alert:</strong> Mutasi BCA masuk Rp 147.000.000,- dari PT Multi Artha Reksa (Invoice BI IKN). Menunggu approval potong PPh 23.'
+      ],
+      actions: [
+        { label: 'Tinjau Draft Kas Masuk', type: 'primary', onclick: "window.goToSlide(5)" },
+        { label: 'Buka SharePoint Folder Proyek', type: 'secondary', onclick: "window.showDeckToast('Membuka Folder SharePoint M365...')"}
+      ]
+    },
+    'pm': {
+      roleTitle: 'Operations & Engineering Task Briefing (PM & Teknisi)',
+      badgeClass: 'green',
+      badgeText: 'Semua Tim Terjadwal',
+      time: '07:45 WIB — Selasa, 13 Okt 2026',
+      metrics: [
+        { label: 'Lokasi On-Site', val: '3 Site' },
+        { label: 'SPK Diterbitkan', val: '3 Dokumen' },
+        { label: 'Status UAT', val: '92% Selesai' }
+      ],
+      todos: [
+        '📍 <strong>Tim Site 1 (Budi & Doni) @ BI IKN:</strong> Penarikan kabel Dante Cat6A di plenum ceiling dan terminasi wallplate.',
+        '📍 <strong>Tim Site 2 (Hendri) @ OJK:</strong> Firmware update Q-SYS Core 110f dan acoustic boundary test.',
+        '📋 <strong>Kelengkapan Berkas:</strong> Form BAST fisik wajib diunggah fotonya ke SharePoint Proyek sebelum jam 17.00 WIB sore ini.'
+      ],
+      actions: [
+        { label: 'Buka Checklist SOP Teknisi', type: 'primary', onclick: "window.showDeckToast('Membuka SOP Checklist M365...')" },
+        { label: 'Form BAST Digital', type: 'secondary', onclick: "window.goToSlide(3)" }
+      ]
+    },
+    'finance': {
+      roleTitle: 'Cashflow & Tax Reconciliation Briefing (Mbak Finance)',
+      badgeClass: 'red',
+      badgeText: '2 Pending Action Accurate',
+      time: '07:45 WIB — Selasa, 13 Okt 2026',
+      metrics: [
+        { label: 'Faktur Menunggu Match', val: '2 Mutasi' },
+        { label: 'Potongan PPh 23 (2%)', val: 'Rp 3.000.000' },
+        { label: 'Net Bank BCA', val: 'Rp 189.500.000' }
+      ],
+      todos: [
+        '🏦 <strong>Mutasi Masuk BCA #1:</strong> PT Multi Artha Reksa transfer Rp 147.000.000,- (Invoice #INV-088 nilai Rp 150 Jt, potongan PPh 23 2% pas Rp 3 Jt).',
+        '💳 <strong>Tagihan Keluar Distributor #2:</strong> Pembayaran DP Crestron Indonesia Rp 42.500.000,- jatuh tempo 2 hari lagi.',
+        '📑 <strong>Bukti Potong PPh 23:</strong> Permintaan bukti potong otomatis siap dikirim ke bagian Pajak Bank Indonesia.'
+      ],
+      actions: [
+        { label: 'Eksekusi Rekonsiliasi Kas', type: 'primary', onclick: "window.goToSlide(5)" },
+        { label: 'Cek Saldo Accurate Online', type: 'secondary', onclick: "window.showDeckToast('Sinkronisasi Accurate API Ready...')" }
+      ]
+    }
+  };
+
+  window.switchTeamsRole = function(roleKey, btnEl) {
+    if (btnEl) {
+      document.querySelectorAll('.teams-role-chip').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+    }
+
+    const container = document.getElementById('teamsCardContainer');
+    if (!container) return;
+    const brief = sampleTeamsBriefs[roleKey] || sampleTeamsBriefs['owner'];
+
+    container.innerHTML = `
+      <div class="teams-adaptive-card animate-text">
+        <div class="teams-card-title">
+          <span>${brief.roleTitle}</span>
+          <span class="teams-badge ${brief.badgeClass}">${brief.badgeText}</span>
+        </div>
+        <div style="font-size:0.68rem; color:#8c8c94; margin-bottom:6px;">${brief.time}</div>
+        
+        <div class="teams-grid-metrics">
+          ${brief.metrics.map(m => `
+            <div class="teams-metric-box">
+              <div class="label">${m.label}</div>
+              <div class="val">${m.val}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <ul class="teams-todo-list">
+          ${brief.todos.map(t => `<li class="teams-todo-item">${t}</li>`).join('')}
+        </ul>
+
+        <div class="teams-actions-row">
+          ${brief.actions.map(a => `
+            <button class="teams-btn ${a.type === 'secondary' ? 'secondary' : ''}" onclick="${a.onclick}">${a.label}</button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+    showToast(`Beralih ke Briefing: ${brief.roleTitle}`);
+  };
+
+  // ============================================================
+  // 🔥 INTERACTIVE 4: BCA TO ACCURATE RECONCILIATION (SLIDE 06)
+  // ============================================================
+  window.triggerBcaRecon = function(itemId, btnEl) {
+    const statusBox = document.getElementById(`reconStatus_${itemId}`);
+    const actionBtn = document.getElementById(`reconBtn_${itemId}`);
+    if (!statusBox || !actionBtn) return;
+
+    actionBtn.disabled = true;
+    actionBtn.textContent = 'Memposting ke Accurate API...';
+
+    setTimeout(() => {
+      statusBox.innerHTML = `
+        <span class="pill-good" style="font-size:0.75rem;">✓ TERPOSTING KE ACCURATE ONLINE</span>
+        <span style="font-size:0.7rem; color:#a1a1aa; margin-left:8px;">Jurnal #JRN-2026-10-094 Disahkan oleh Staf Finance</span>
+      `;
+      actionBtn.textContent = 'Jurnal Sudah Masuk';
+      actionBtn.classList.add('secondary');
+      showToast('Rekonsiliasi Sukses! Jurnal kas masuk Accurate tercatat otomatis.');
+    }, 600);
+  };
+
+  // ============================================================
+  // 🔒 IT BRIEF PASSCODE TERMINAL GATE (SLIDE 12)
+  // ============================================================
+  function handleUnlock() {
+    if (!passcodeInput) return;
+    const code = passcodeInput.value.trim().toLowerCase();
+    if (code === 'fleek') {
+      if (terminalLockScreen) terminalLockScreen.style.display = 'none';
+      if (itUnlockedContent) itUnlockedContent.style.display = 'block';
+      if (errorMessage) errorMessage.style.display = 'none';
+      showToast('Akses Diberikan: Technical Engineering Specs Unlocked');
+    } else {
+      if (errorMessage) {
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = 'Passcode Salah. Gunakan kode: fleek';
+      }
+    }
+  }
+
+  if (unlockBtn) {
+    unlockBtn.addEventListener('click', handleUnlock);
+  }
+
+  if (passcodeInput) {
+    passcodeInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleUnlock();
+    });
+  }
+});
+
+</script>
+</body>
+</html>
